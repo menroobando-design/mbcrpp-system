@@ -1,4 +1,18 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .models import WeeklyReport
 
-def home(request):
-    return render(request, 'index.html')
+
+def report_list(request):
+    reports = WeeklyReport.objects.all().order_by("-created_at")
+
+    return render(
+        request,
+        "reports/list.html",
+        {
+            "reports": reports
+        }
+    )
+
+
+def add_report(request):
+    return render(request, "reports/form.html")

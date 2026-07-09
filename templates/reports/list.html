@@ -1,0 +1,64 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+
+<h1>📝 Weekly Reports</h1>
+
+<p>
+    <a href="/reports/add/" class="btn btn-success">
+        ➕ New Weekly Report
+    </a>
+</p>
+
+<table class="table table-bordered">
+
+<thead>
+
+<tr>
+    <th>#</th>
+    <th>Barangay</th>
+    <th>Week Covered</th>
+    <th>Date</th>
+    <th>Waste (kg)</th>
+    <th>Status</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for report in reports %}
+
+<tr>
+
+<td>{{ forloop.counter }}</td>
+
+<td>{{ report.barangay }}</td>
+
+<td>{{ report.week_covered }}</td>
+
+<td>{{ report.activity_date }}</td>
+
+<td>{{ report.waste_collected }}</td>
+
+<td>{{ report.status }}</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+<td colspan="6">
+No reports found.
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+{% endblock %}
