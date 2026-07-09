@@ -1,0 +1,82 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Barangays{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>🏘 Barangay Management</h2>
+
+    <a href="{% url 'barangay_add' %}" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i> Add Barangay
+    </a>
+</div>
+
+<table class="table table-bordered table-hover shadow-sm bg-white">
+
+    <thead class="table-success">
+
+        <tr>
+            <th width="50">#</th>
+            <th>Barangay</th>
+            <th>Punong Barangay</th>
+            <th>Environment Chair</th>
+            <th width="100">Status</th>
+            <th width="180">Action</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+    {% for barangay in barangays %}
+
+        <tr>
+
+            <td>{{ forloop.counter }}</td>
+
+            <td>{{ barangay.name }}</td>
+
+            <td>{{ barangay.punong_barangay }}</td>
+
+            <td>{{ barangay.environment_chair }}</td>
+
+            <td>
+                {% if barangay.active %}
+                    <span class="badge bg-success">Active</span>
+                {% else %}
+                    <span class="badge bg-danger">Inactive</span>
+                {% endif %}
+            </td>
+
+            <td>
+
+                <a href="#" class="btn btn-warning btn-sm">
+                    ✏️ Edit
+                </a>
+
+                <a href="#" class="btn btn-danger btn-sm">
+                    🗑 Delete
+                </a>
+
+            </td>
+
+        </tr>
+
+    {% empty %}
+
+        <tr>
+
+            <td colspan="6" class="text-center">
+                No barangays found.
+            </td>
+
+        </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}

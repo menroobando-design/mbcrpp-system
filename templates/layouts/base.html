@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}Obando EcoTrack{% endblock %}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
+
+<div class="container-fluid">
+
+<a class="navbar-brand fw-bold" href="/">
+
+🌱 Obando EcoTrack
+
+</a>
+
+<div class="ms-auto text-white">
+
+Municipality of Obando
+
+</div>
+
+</div>
+
+</nav>
+
+<div class="container-fluid">
+
+<div class="row">
+
+<div class="col-md-2 bg-dark text-white min-vh-100 p-3">
+
+<h5 class="mb-4">
+
+MENU
+
+</h5>
+
+<div class="list-group">
+
+<a href="/" class="list-group-item list-group-item-action">
+
+🏠 Dashboard
+
+</a>
+
+<a href="#" class="list-group-item list-group-item-action">
+
+📝 Weekly Reports
+
+</a>
+
+<a href="/barangays/" class="list-group-item list-group-item-action">
+    🏘 Barangays
+</a>
+
+<a href="#" class="list-group-item list-group-item-action">
+
+📊 Statistics
+
+</a>
+
+<a href="#" class="list-group-item list-group-item-action">
+
+⚙ Settings
+
+</a>
+
+</div>
+
+</div>
+
+<div class="col-md-10 p-4">
+
+{% block content %}
+
+{% endblock %}
+
+</div>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

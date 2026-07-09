@@ -1,0 +1,79 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<h1 class="mb-4">
+    📊 Dashboard
+</h1>
+
+<div class="row">
+
+    <div class="col-md-3">
+
+        <div class="card shadow text-center">
+
+            <div class="card-body">
+
+                <h1>{{ total_barangays }}</h1>
+
+                <h5>Total Barangays</h5>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card shadow text-center">
+
+            <div class="card-body">
+
+                <h1>{{ total_reports }}</h1>
+
+                <h5>Reports</h5>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card shadow text-center">
+
+            <div class="card-body">
+
+                <h1>{{ waste_collected }} kg</h1>
+
+                <h5>Waste Collected</h5>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card shadow text-center">
+
+            <div class="card-body">
+
+                <h1>{{ pending_reports }}</h1>
+
+                <h5>Pending</h5>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
