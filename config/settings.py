@@ -141,3 +141,16 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 AUTH_PASSWORD_VALIDATORS = []
+
+
+import os
+
+if os.environ.get("RENDER"):
+    from django.contrib.auth.models import User
+
+    if not User.objects.filter(username="admin").exists():
+        User.objects.create_superuser(
+            username="admin",
+            email="admin@obando.gov.ph",
+            password="Admin12345"
+        )
