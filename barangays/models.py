@@ -5,13 +5,27 @@ class Barangay(models.Model):
 
     name = models.CharField(max_length=100, unique=True)
 
+    logo = models.ImageField(
+        upload_to="barangay_logos/",
+        blank=True,
+        null=True
+    )
+
+    committee_chair = models.CharField(
+        max_length=150,
+        blank=True
+    )
+
+    barangay_captain = models.CharField(
+        max_length=150,
+        blank=True
+    )
+
     municipality = models.CharField(
         max_length=100,
         default="Obando"
     )
-
-    punong_barangay = models.CharField(max_length=100)
-
+  
     environment_chair = models.CharField(max_length=100)
 
     contact_number = models.CharField(

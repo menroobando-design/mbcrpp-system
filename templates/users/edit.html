@@ -1,0 +1,52 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-header bg-warning">
+
+        <h4 class="mb-0">
+            ✏ Edit User
+        </h4>
+
+    </div>
+
+    <div class="card-body">
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <h5>User Account</h5>
+
+            {{ user_form.as_p }}
+
+            <hr>
+
+            <h5>User Profile</h5>
+
+            {{ profile_form.as_p }}
+
+            <button class="btn btn-success">
+
+                Save Changes
+
+            </button>
+
+            <a href="{% url 'user_list' %}"
+               class="btn btn-secondary">
+
+                Cancel
+
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,297 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+Statistics
+{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    📊 MBCRPP Statistics
+</h2>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <form method="get">
+
+        <select
+            name="year"
+            class="form-select"
+            onchange="this.form.submit()"
+        >
+
+            <option value="">
+                All Years
+            </option>
+
+            {% for year in available_years %}
+
+            <option
+                value="{{ year }}"
+                {% if selected_year == year|stringformat:"s" %}
+                    selected
+                {% endif %}
+            >
+                {{ year }}
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+    </form>
+
+</div>
+
+
+<div class="row">
+
+    <div class="col-md-3 mb-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h6>Total Reports</h6>
+                <h2>{{ total_reports }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h6>Total Participants</h6>
+                <h2>{{ total_participants }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h6>Total Waste</h6>
+                <h2>{{ total_waste }} kg</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h6>Average Waste / Report</h6>
+                <h2>{{ average_waste }} kg</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<hr class="my-5">
+
+<!-- Monthly Chart -->
+
+<div class="card shadow">
+
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0">
+            Monthly Waste Collection
+        </h5>
+    </div>
+
+    <div class="card-body">
+        <div style="height:320px;">
+            <canvas id="monthlyChart"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<div class="card shadow mt-4">
+
+    <div class="card-header bg-success text-white">
+
+        <h5 class="mb-0">
+            Waste Collected per Barangay
+        </h5>
+
+    </div>
+
+    <div class="card-body">
+
+        <div style="height:320px;">
+            <canvas id="barangayChart"></canvas>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Doughnut Chart -->
+
+<div class="card shadow mt-4">
+
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0">
+            Waste Composition
+        </h5>
+    </div>
+
+    <div class="card-body">
+        <div style="height:320px;">
+            <canvas id="wasteChart"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<!-- Django Data -->
+
+{{ month_labels|json_script:"month-labels" }}
+{{ month_totals|json_script:"month-totals" }}
+
+{{ biodegradable|json_script:"bio" }}
+{{ recyclable|json_script:"recycle" }}
+{{ residual|json_script:"residual" }}
+{{ potential|json_script:"potential" }}
+{{ barangay_labels|json_script:"barangay-labels" }}
+{{ barangay_totals|json_script:"barangay-totals" }}
+
+<script>
+
+// ======================
+// Waste per Barangay
+// ======================
+
+const barangayLabels = JSON.parse(
+    document.getElementById("barangay-labels").textContent
+);
+
+const barangayTotals = JSON.parse(
+    document.getElementById("barangay-totals").textContent
+);
+
+new Chart(
+
+    document.getElementById("barangayChart"),
+
+    {
+
+        type: "bar",
+
+        data: {
+
+            labels: barangayLabels,
+
+            datasets: [{
+
+                label: "Waste (kg)",
+
+                data: barangayTotals
+
+            }]
+
+        },
+
+        options: {
+
+            indexAxis: "y",
+
+            responsive: true,
+
+            plugins: {
+
+                legend: {
+
+                    display: false
+
+                }
+
+            }
+
+        }
+
+    }
+
+);
+
+// ======================
+// Monthly Line Chart
+// ======================
+
+const labels = JSON.parse(
+    document.getElementById("month-labels").textContent
+);
+
+const totals = JSON.parse(
+    document.getElementById("month-totals").textContent
+);
+
+new Chart(
+    document.getElementById("monthlyChart"),
+    {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Waste Collected (kg)",
+                data: totals,
+                borderWidth: 3,
+                tension: 0.3,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    }
+);
+
+// ======================
+// Waste Composition
+// ======================
+
+new Chart(
+    document.getElementById("wasteChart"),
+    {
+        type: "doughnut",
+
+        data: {
+
+            labels: [
+                "Biodegradable",
+                "Recyclable",
+                "Residual",
+                "Potential"
+            ],
+
+            datasets: [{
+                data: [
+                    JSON.parse(document.getElementById("bio").textContent),
+                    JSON.parse(document.getElementById("recycle").textContent),
+                    JSON.parse(document.getElementById("residual").textContent),
+                    JSON.parse(document.getElementById("potential").textContent)
+                ]
+            }]
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            plugins: {
+
+                legend: {
+                    position: "top",
+                    labels: {
+                        boxWidth: 15,
+                        padding: 20
+                    }
+                }
+
+            }
+        }
+    }
+);
+
+</script>
+
+{% endblock %}

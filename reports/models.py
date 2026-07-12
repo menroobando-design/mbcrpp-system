@@ -24,14 +24,50 @@ class WeeklyReport(models.Model):
 
     participants = models.PositiveIntegerField()
 
-    waste_collected = models.DecimalField(
+    biodegradable = models.DecimalField(
         max_digits=10,
-        decimal_places=2
+        decimal_places=2,
+        default=0
     )
 
-    waste_type = models.CharField(max_length=100)
+    recyclable = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
+    )
 
-    remarks = models.TextField(blank=True)
+    residual = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
+    )
+
+    potential = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
+    )
+
+    disposal_method = models.TextField(
+        blank=True
+    )
+
+    remarks = models.TextField(
+        blank=True
+    )
+
+    disposal_method = models.TextField(
+        verbose_name="Method of Disposal",
+        blank=True
+    )
+
+    remarks = models.TextField(
+        blank=True
+    )
+
+    menro_remarks = models.TextField(
+        blank=True
+    )
 
     status = models.CharField(
         max_length=20,
@@ -43,14 +79,50 @@ class WeeklyReport(models.Model):
 
     def __str__(self):
         return f"{self.barangay} - {self.week_covered}"
+    
+    @property
+    def total_waste(self):
+
+        return (
+
+            self.biodegradable +
+
+            self.recyclable +
+
+            self.residual +
+
+            self.potential
+
+        )
 
 
 class ReportPhoto(models.Model):
+
+    CATEGORY_CHOICES = [
+
+        ("Before", "Before"),
+
+        ("During", "During"),
+
+        ("After", "After"),
+
+        ("Collected Waste", "Collected Waste"),
+
+        ("Group Photo", "Group Photo"),
+
+        ("Attendance", "Attendance"),
+
+    ]
 
     report = models.ForeignKey(
         WeeklyReport,
         on_delete=models.CASCADE,
         related_name="photos"
+    )
+
+    category = models.CharField(
+        max_length=30,
+        choices=CATEGORY_CHOICES
     )
 
     image = models.ImageField(
@@ -63,4 +135,5 @@ class ReportPhoto(models.Model):
     )
 
     def __str__(self):
-        return self.caption or f"Photo {self.id}"
+
+        return f"{self.report.barangay} - {self.category}"

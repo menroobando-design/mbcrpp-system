@@ -1,0 +1,107 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+
+<div class="card">
+
+<div class="card-header bg-success text-white">
+
+<h3>
+
+Review Weekly Report
+
+</h3>
+
+</div>
+
+<div class="card-body">
+
+<p><strong>Barangay:</strong> {{ report.barangay }}</p>
+
+<p><strong>Week:</strong> {{ report.week_covered }}</p>
+
+<p><strong>Date:</strong> {{ report.activity_date }}</p>
+
+<p><strong>Location:</strong> {{ report.activity_location }}</p>
+
+<p><strong>Participants:</strong> {{ report.participants }}</p>
+
+<p><strong>Method of Disposal:</strong></p>
+
+<p>{{ report.disposal_method }}</p>
+
+<hr>
+
+<p><strong>Biodegradable:</strong> {{ report.biodegradable }} kg</p>
+
+<p><strong>Recyclable:</strong> {{ report.recyclable }} kg</p>
+
+<p><strong>Residual:</strong> {{ report.residual }} kg</p>
+
+<p><strong>Potential:</strong> {{ report.potential }} kg</p>
+
+<hr>
+
+<p><strong>Total Waste:</strong> {{ report.total_waste }} kg</p>
+
+<hr>
+
+<p><strong>Method of Disposal:</strong></p>
+
+<p>{{ report.disposal_method }}</p>
+
+<hr>
+
+<p><strong>Remarks:</strong></p>
+
+<p>{{ report.remarks }}</p>
+
+<hr>
+
+<h4>Photos</h4>
+
+<div class="row">
+
+{% for photo in report.photos.all %}
+
+<div class="col-md-3">
+
+<img
+src="{{ photo.image.url }}"
+class="img-fluid rounded">
+
+<p>
+
+{{ photo.caption }}
+
+</p>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+<hr>
+
+<a
+href="/reports/{{ report.id }}/approve/"
+class="btn btn-success">
+
+Approve
+
+</a>
+
+<a
+href="/reports/{{ report.id }}/return/"
+class="btn btn-danger">
+
+Return for Revision
+
+</a>
+
+</div>
+
+</div>
+
+{% endblock %}

@@ -2,25 +2,37 @@
 
 {% block content %}
 
-<h1>📝 Weekly Reports</h1>
+<div class="d-flex justify-content-between mb-3">
 
-<p>
-    <a href="/reports/add/" class="btn btn-success">
-        ➕ New Weekly Report
+    <h2>Weekly Reports</h2>
+
+    {% if not request.user.is_staff %}
+
+    <a href="{% url 'add_report' %}"
+       class="btn btn-success">
+
+        + New Report
+
     </a>
-</p>
+
+    {% endif %}
+
+</div>
 
 <table class="table table-bordered">
 
-<thead>
+<thead class="table-success">
 
 <tr>
-    <th>#</th>
-    <th>Barangay</th>
-    <th>Week Covered</th>
-    <th>Date</th>
-    <th>Waste (kg)</th>
-    <th>Status</th>
+
+<th>Barangay</th>
+
+<th>Week</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
 </tr>
 
 </thead>
@@ -31,17 +43,81 @@
 
 <tr>
 
-<td>{{ forloop.counter }}</td>
-
 <td>{{ report.barangay }}</td>
 
 <td>{{ report.week_covered }}</td>
 
-<td>{{ report.activity_date }}</td>
+<td>
 
-<td>{{ report.waste_collected }}</td>
+{% if report.status == "Approved" %}
 
-<td>{{ report.status }}</td>
+<span class="badge bg-success">
+
+{{ report.status }}
+
+</span>
+
+{% elif report.status == "Submitted" %}
+
+<span class="badge bg-warning text-dark">
+
+{{ report.status }}
+
+</span>
+
+{% elif report.status == "Returned" %}
+
+<span class="badge bg-danger">
+
+{{ report.status }}
+
+</span>
+
+{% else %}
+
+<span class="badge bg-secondary">
+
+{{ report.status }}
+
+</span>
+
+{% endif %}
+
+</td>
+
+<td>
+
+{% if report.status == "Draft" %}
+
+<a
+href="/reports/{{ report.id }}/submit/"
+class="btn btn-primary btn-sm">
+
+Submit
+
+</a>
+
+{% endif %}
+
+<a href="{% url 'report_detail' report.id %}"
+   class="btn btn-info btn-sm">
+
+    View Details
+
+</a>
+
+{% if request.user.is_staff %}
+
+<a href="{% url 'review_report' report.id %}"
+   class="btn btn-success btn-sm">
+
+    Review
+
+</a>
+
+{% endif %}
+
+</td>
 
 </tr>
 
@@ -49,8 +125,10 @@
 
 <tr>
 
-<td colspan="6">
+<td colspan="4">
+
 No reports found.
+
 </td>
 
 </tr>

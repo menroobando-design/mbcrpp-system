@@ -1,84 +1,193 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{% block title %}Obando EcoTrack{% endblock %}</title>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Obando EcoTrack</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="{% static 'css/style.css' %}">
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
 </head>
 
-<body class="bg-light">
+<body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
+<!-- =========================
+     Official Government Banner
+========================== -->
 
-<div class="container-fluid">
+<header class="official-banner">
 
-<a class="navbar-brand fw-bold" href="/">
+    <img src="{% static 'images/obando.png' %}"
+         class="banner-logo"
+         alt="Municipality Logo">
 
-🌱 Obando EcoTrack
+    <div class="banner-title">
 
-</a>
+        <h1>Municipality of Obando</h1>
 
-<div class="ms-auto text-white">
+        <h4>Municipal Environment and Natural Resources Office</h4>
 
-Municipality of Obando
+        <h2>MBCRPP Monitoring System</h2>
+
+        <p>Obando, Abot-Kamay ang <strong>Progreso!</strong></p>
+
+    </div>
+
+    <img src="{% static 'images/menro.png' %}"
+         class="banner-logo"
+         alt="MENRO Logo">
+
+</header>
+
+<!-- =========================
+     TOP INFORMATION BAR
+========================== -->
+
+<div class="top-bar">
+
+    <div class="portal-name">
+
+        <i class="bi bi-leaf-fill"></i>
+
+        MBCRPP Portal
+
+    </div>
+
+    <div class="top-right">
+
+        <div class="me-4">
+
+            <i class="bi bi-person-circle"></i>
+
+            Welcome,
+
+            <strong>{{ request.user.username }}</strong>
+
+        </div>
+
+        <div>
+
+            <i class="bi bi-calendar-event"></i>
+
+            {% now "F d, Y" %}
+
+        </div>
+
+    </div>
 
 </div>
-
-</div>
-
-</nav>
 
 <div class="container-fluid">
 
 <div class="row">
 
-<div class="col-md-2 bg-dark text-white min-vh-100 p-3">
+{% if request.user.is_authenticated %}
 
-<h5 class="mb-4">
+<div class="col-md-2 sidebar">
 
-MENU
+    <div class="list-group list-group-flush sidebar-menu mt-3">
 
-</h5>
+        <a href="/" class="list-group-item sidebar-link">
+            <i class="bi bi-house-door-fill"></i>
+            Dashboard
+        </a>
 
-<div class="list-group">
+        {% if request.user.is_staff %}
 
-<a href="/" class="list-group-item list-group-item-action">
+        <a href="/barangays/" class="list-group-item sidebar-link">
+            <i class="bi bi-buildings-fill"></i>
+            Barangays
+        </a>
 
-🏠 Dashboard
+        <a href="/reports/" class="list-group-item sidebar-link">
+            <i class="bi bi-file-earmark-text-fill"></i>
+            All Reports
+        </a>
 
-</a>
+        <a href="{% url 'pending_reports' %}" class="list-group-item sidebar-link">
+            <i class="bi bi-hourglass-split"></i>
+            Pending Review
+        </a>
 
-<a href="#" class="list-group-item list-group-item-action">
+        <a href="{% url 'approved_reports' %}" class="list-group-item sidebar-link">
+            <i class="bi bi-check-circle-fill"></i>
+            Approved Reports
+        </a>
 
-📝 Weekly Reports
+        <a href="{% url 'returned_reports' %}" class="list-group-item sidebar-link">
+            <i class="bi bi-arrow-return-left"></i>
+            Returned Reports
+        </a>
 
-</a>
+        <a href="{% url 'user_list' %}" class="list-group-item sidebar-link">
+            <i class="bi bi-people-fill"></i>
+            Users
+        </a>
 
-<a href="/barangays/" class="list-group-item list-group-item-action">
-    🏘 Barangays
-</a>
+        <a href="{% url 'statistics' %}" class="list-group-item sidebar-link">
+            <i class="bi bi-bar-chart-fill"></i>
+            Statistics
+        </a>
 
-<a href="#" class="list-group-item list-group-item-action">
+        {% else %}
 
-📊 Statistics
+        <a href="/reports/add/" class="list-group-item sidebar-link">
+            <i class="bi bi-plus-circle-fill"></i>
+            New Report
+        </a>
 
-</a>
+        <a href="/reports/" class="list-group-item sidebar-link">
+            <i class="bi bi-folder-fill"></i>
+            My Reports
+        </a>
 
-<a href="#" class="list-group-item list-group-item-action">
+        <a href="#" class="list-group-item sidebar-link">
+            <i class="bi bi-archive-fill"></i>
+            Report Library
+        </a>
 
-⚙ Settings
+        <a href="#" class="list-group-item sidebar-link">
+            <i class="bi bi-question-circle-fill"></i>
+            Help Center
+        </a>
 
-</a>
+        {% endif %}
+
+        <form action="{% url 'logout' %}" method="post" class="mt-4">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger w-100">
+                <i class="bi bi-box-arrow-right"></i>
+                Logout
+            </button>
+        </form>
+
+    </div>
 
 </div>
 
-</div>
+<div class="col-md-10 mt-3">
 
-<div class="col-md-10 p-4">
+{% else %}
+
+<div class="col-md-12 mt-3">
+
+{% endif %}
 
 {% block content %}
 
@@ -90,7 +199,8 @@ MENU
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
 
 </body>
+
 </html>

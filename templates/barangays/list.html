@@ -5,11 +5,13 @@
 {% block content %}
 
 <div class="d-flex justify-content-between align-items-center mb-4">
+
     <h2>🏘 Barangay Management</h2>
 
     <a href="{% url 'barangay_add' %}" class="btn btn-success">
         <i class="bi bi-plus-circle"></i> Add Barangay
     </a>
+
 </div>
 
 <table class="table table-bordered table-hover shadow-sm bg-white">
@@ -17,10 +19,10 @@
     <thead class="table-success">
 
         <tr>
-            <th width="50">#</th>
+            <th width="60">#</th>
             <th>Barangay</th>
-            <th>Punong Barangay</th>
-            <th>Environment Chair</th>
+            <th>Barangay Captain</th>
+            <th>Committee Chair</th>
             <th width="100">Status</th>
             <th width="180">Action</th>
         </tr>
@@ -37,9 +39,9 @@
 
             <td>{{ barangay.name }}</td>
 
-            <td>{{ barangay.punong_barangay }}</td>
+            <td>{{ barangay.barangay_captain }}</td>
 
-            <td>{{ barangay.environment_chair }}</td>
+            <td>{{ barangay.committee_chair }}</td>
 
             <td>
                 {% if barangay.active %}
@@ -51,11 +53,13 @@
 
             <td>
 
-                <a href="#" class="btn btn-warning btn-sm">
+                <a href="{% url 'barangay_edit' barangay.id %}"
+                   class="btn btn-warning btn-sm">
                     ✏️ Edit
                 </a>
 
-                <a href="#" class="btn btn-danger btn-sm">
+                <a href="{% url 'barangay_delete' barangay.id %}"
+                   class="btn btn-danger btn-sm">
                     🗑 Delete
                 </a>
 
@@ -66,11 +70,9 @@
     {% empty %}
 
         <tr>
-
             <td colspan="6" class="text-center">
                 No barangays found.
             </td>
-
         </tr>
 
     {% endfor %}

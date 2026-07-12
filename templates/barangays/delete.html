@@ -1,0 +1,48 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Delete Barangay{% endblock %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-header bg-danger text-white">
+
+        <h4 class="mb-0">Delete Barangay</h4>
+
+    </div>
+
+    <div class="card-body">
+
+        <p class="fs-5">
+
+            Are you sure you want to delete
+
+            <strong>{{ barangay.name }}</strong>?
+
+        </p>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <button type="submit" class="btn btn-danger">
+
+                🗑 Yes, Delete
+
+            </button>
+
+            <a href="{% url 'barangay_list' %}"
+               class="btn btn-secondary">
+
+                Cancel
+
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

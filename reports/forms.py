@@ -1,52 +1,81 @@
 from django import forms
 from .models import WeeklyReport, ReportPhoto
+from .widgets import MultipleFileInput
 
 
 class WeeklyReportForm(forms.ModelForm):
+
     class Meta:
+
         model = WeeklyReport
+
+        labels = {
+
+            "biodegradable":"Biodegradable (kg)",
+
+            "recyclable":"Recyclable (kg)",
+
+            "residual":"Residual (kg)",
+
+            "potential":"Potential (kg)",
+
+            "disposal_method":"Method of Disposal",
+
+        }
+
         fields = [
-            "barangay",
-            "week_covered",
-            "activity_date",
-            "activity_location",
-            "participants",
-            "waste_collected",
-            "waste_type",
-            "remarks",
-            "status",
+           "week_covered",
+           "activity_date",
+           "activity_location",
+           "participants",
+           "biodegradable",
+           "recyclable",
+           "residual",
+           "potential",           
+           "disposal_method",
+           "remarks",
         ]
 
         widgets = {
-            "week_covered": forms.TextInput(attrs={"class": "form-control"}),
+
             "activity_date": forms.DateInput(
-                attrs={"type": "date", "class": "form-control"}
+                attrs={"type":"date"}
             ),
-            "activity_location": forms.TextInput(attrs={"class": "form-control"}),
-            "participants": forms.NumberInput(attrs={"class": "form-control"}),
-            "waste_collected": forms.NumberInput(attrs={"class": "form-control"}),
-            "waste_type": forms.TextInput(attrs={"class": "form-control"}),
+
+            "disposal_method": forms.Textarea(
+                attrs={"rows":3}
+            ),
+
             "remarks": forms.Textarea(
-                attrs={
-                    "class": "form-control",
-                    "rows": 4,
-                }
+                attrs={"rows":3}
             ),
-            "status": forms.Select(attrs={"class": "form-control"}),
-            "barangay": forms.Select(attrs={"class": "form-control"}),
+
         }
 
 
-class ReportPhotoForm(forms.ModelForm):
-    class Meta:
-        model = ReportPhoto
-        fields = [
-            "image",
-            "caption",
-        ]
+class MultipleFileField(forms.FileField):
 
-        widgets = {
-            "caption": forms.TextInput(
-                attrs={"class": "form-control"}
-            ),
-        }
+    widget = MultipleFileInput
+
+    def clean(self, data, initial=None):
+
+        if not data:
+            return []
+
+        if isinstance(data, (list, tuple)):
+            return data
+
+        return [data]
+
+
+class ReportPhotoForm(forms.Form):
+
+    category = forms.ChoiceField(
+        choices=ReportPhoto.CATEGORY_CHOICES
+    )
+
+    images = MultipleFileField()
+
+    caption = forms.CharField(
+        required=False
+    )

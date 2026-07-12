@@ -7,8 +7,8 @@ class BarangayAdmin(admin.ModelAdmin):
 
     list_display = (
         "name",
-        "punong_barangay",
-        "environment_chair",
+        "committee_chair",
+        "barangay_captain",
         "contact_number",
         "active",
     )

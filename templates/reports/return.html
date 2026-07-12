@@ -1,0 +1,74 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+
+<div class="card">
+
+    <div class="card-header bg-danger text-white">
+
+        <h3>Return Report</h3>
+
+    </div>
+
+    <div class="card-body">
+
+        <p>
+
+            <strong>Barangay:</strong>
+
+            {{ report.barangay }}
+
+        </p>
+
+        <p>
+
+            <strong>Week:</strong>
+
+            {{ report.week_covered }}
+
+        </p>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <div class="mb-3">
+
+                <label class="form-label">
+
+                    MENRO Remarks
+
+                </label>
+
+                <textarea
+                    name="menro_remarks"
+                    class="form-control"
+                    rows="5"
+                    placeholder="Explain why the report is being returned..."
+                    required></textarea>
+
+            </div>
+
+            <button
+                type="submit"
+                class="btn btn-danger">
+
+                Return Report
+
+            </button>
+
+            <a
+                href="{% url 'review_report' report.id %}"
+                class="btn btn-secondary">
+
+                Cancel
+
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,154 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-header bg-success text-white">
+
+        <h4>Upload Photos</h4>
+
+    </div>
+
+    <div class="card-body">
+
+        <p>
+
+            <strong>Barangay:</strong>
+            {{ report.barangay }}
+
+        </p>
+
+        <form
+            method="POST"
+            enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <div class="mb-3">
+
+            <label>
+
+            Photo Category
+
+            </label>
+
+            {{ form.category }}
+
+            </div>
+
+            <div class="mb-3">
+
+            <label>
+
+            Select Photo
+
+            </label>
+
+            {{ form.images }}
+
+            </div>
+
+            <div class="mb-3">
+
+            <label>
+
+            Caption
+
+            </label>
+
+            {{ form.caption }}
+
+            </div>
+
+            <button
+                class="btn btn-success">
+
+                Upload Photo
+
+            </button>
+
+        </form>
+
+        <hr>
+
+        <hr>
+
+        <h5>Uploaded Photos</h5>
+
+        <table class="table table-bordered table-hover">
+
+        <thead class="table-success">
+
+            <tr>
+
+                <th>Category</th>
+
+                <th>Preview</th>
+
+                <th>Caption</th>
+
+           </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for photo in photos %}
+
+            <tr>
+
+                <td>
+
+                    {{ photo.category }}
+
+                </td>
+
+                <td>
+
+                    <img
+                        src="{{ photo.image.url }}"
+                        width="180"
+                        class="img-thumbnail">
+
+                </td>
+
+                <td>
+
+                    {{ photo.caption }}
+
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="3">
+
+                    No photos uploaded yet.
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <a
+        href="/reports/"
+        class="btn btn-primary mt-3">
+
+        Finish
+
+    </a>        
+
+    </div>
+
+</div>
+
+{% endblock %}
