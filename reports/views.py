@@ -304,11 +304,9 @@ def download_pdf(request, report_id):
         if report.barangay != profile.barangay:
             return redirect("report_list")
 
-    from .pdf_converter import convert_to_pdf
+    from .pdf_generator import generate_report_pdf
 
-    docx_file = generate_report_docx(report)
-
-    pdf_file = convert_to_pdf(docx_file)
+    pdf_file = generate_report_pdf(report)
 
     return FileResponse(
         open(pdf_file, "rb"),
