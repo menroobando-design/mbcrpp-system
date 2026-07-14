@@ -7,6 +7,7 @@ from reportlab.pdfgen import canvas
 from .header import draw_header
 from .tables import draw_information_table
 from .signatures import draw_signatures
+from .photos import draw_photo_pages
 
 
 def generate_report_pdf(report):
@@ -30,6 +31,8 @@ def generate_report_pdf(report):
     draw_information_table(c, report)
 
     draw_signatures(c, report)
+
+    draw_photo_pages(c, report)
     
     c.showPage()
 

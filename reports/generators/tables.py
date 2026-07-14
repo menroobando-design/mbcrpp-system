@@ -51,7 +51,7 @@ def draw_information_table(c, report):
             report.activity_date.strftime("%B %d, %Y"),
             report.barangay.name,
             report.activity_location,
-            "17 meters",
+            f"{report.length_covered} meters",
             f"{report.total_waste} kilograms"
         ]
 

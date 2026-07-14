@@ -22,6 +22,11 @@ class WeeklyReport(models.Model):
 
     activity_location = models.CharField(max_length=255)
 
+    length_covered = models.PositiveIntegerField(
+        default=0,
+        help_text="Length covered in meters"
+    )
+
     participants = models.PositiveIntegerField()
 
     biodegradable = models.DecimalField(
