@@ -14,13 +14,13 @@ def draw_signatures(c, report):
     c.setFont("Helvetica-Bold", 10)
 
     c.drawString(
-        1 * cm,
+        0.5 * cm,
         y + 1.5 * cm,
         "B. Photo Documentation (attach photos of the clean-up drive here)"
     )
 
     c.drawString(
-        1 * cm,
+        0.5 * cm,
         y + 0.8 * cm,
         "C. List of Attendees and Total Number of Volunteers."
     )
