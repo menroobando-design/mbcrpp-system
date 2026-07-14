@@ -131,6 +131,7 @@ def draw_header(c, report):
     c.drawString(
         2 * cm,
         height - 5.7 * cm,
+    )    
 
     c.setFont("Helvetica-Bold", 11)
 
