@@ -5,7 +5,7 @@ def draw_signatures(c, report):
 
     width, height = c._pagesize
 
-    y = 7.2 * cm
+    y = 8.2 * cm
 
     # ---------------------------------
     # SECTION B & C
@@ -14,13 +14,13 @@ def draw_signatures(c, report):
     c.setFont("Helvetica-Bold", 10)
 
     c.drawString(
-        2 * cm,
+        1 * cm,
         y + 1.5 * cm,
         "B. Photo Documentation (attach photos of the clean-up drive here)"
     )
 
     c.drawString(
-        2 * cm,
+        1 * cm,
         y + 0.8 * cm,
         "C. List of Attendees and Total Number of Volunteers."
     )
