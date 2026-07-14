@@ -13,14 +13,7 @@ def draw_header(c, report):
     # ---------------------------------------------------
     # LOGO PATHS
     # ---------------------------------------------------
-
-    obando_logo = os.path.join(
-        settings.BASE_DIR,
-        "static",
-        "images",
-        "obando.png"
-    )
-
+    
     bagong_logo = os.path.join(
         settings.BASE_DIR,
         "static",
@@ -42,17 +35,6 @@ def draw_header(c, report):
 
     logo_size = 2.5 * cm
 
-    if os.path.exists(obando_logo):
-
-        c.drawImage(
-            obando_logo,
-            2 * cm,
-            height - 4 * cm,
-            width=logo_size,
-            height=logo_size,
-            preserveAspectRatio=True,
-            mask="auto",
-        )
 
     if barangay_logo and os.path.exists(barangay_logo):
 
