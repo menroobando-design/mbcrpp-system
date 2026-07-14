@@ -101,18 +101,19 @@ def draw_header(c, report):
     # Annex
 
     c.setFont("Helvetica-Bold", 10)
-    c.drawRightString(
-        width - 2 * cm,
-        height - 1.2 * cm,
+
+    c.drawCentredString(
+        width - 3.25 * cm,
+        height - 4.4 * cm,
         'ANNEX "A"'
     )
 
     # Form
 
-    c.setFont("Helvetica", 9)
+    c.setFont("Helvetica-Oblique", 8)
 
     c.drawCentredString(
-        width / 2,
+        10.05 * cm,
         height - 4.4 * cm,
         "(Form 1 Barangay)"
     )
@@ -129,14 +130,12 @@ def draw_header(c, report):
 
     c.drawString(
         2 * cm,
-        height - 6.0 * cm,
-        f"Date : {report.activity_date.strftime('%B %d, %Y')}"
-    )
+        height - 5.7 * cm,
 
     c.setFont("Helvetica-Bold", 11)
 
     c.drawCentredString(
         width / 2,
-        height - 6.0 * cm,
+        height - 6.4 * cm,
         "CONDUCT OF WEEKLY CLEAN-UP DRIVE"
     )
