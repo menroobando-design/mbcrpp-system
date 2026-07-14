@@ -131,6 +131,7 @@ def draw_header(c, report):
     c.drawString(
         2 * cm,
         height - 5.7 * cm,
+        f"Date : {report.activity_date.strftime('%B %d, %Y')}"
     )    
 
     c.setFont("Helvetica-Bold", 11)
