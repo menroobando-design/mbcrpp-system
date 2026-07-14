@@ -113,7 +113,7 @@ def draw_header(c, report):
     c.setFont("Helvetica-Oblique", 8)
 
     c.drawCentredString(
-        10.05 * cm,
+        2 * cm,
         height - 4.4 * cm,
         "(Form 1 Barangay)"
     )
@@ -129,7 +129,7 @@ def draw_header(c, report):
     c.setFont("Helvetica", 10)
 
     c.drawString(
-        2 * cm,
+        10.05 * cm,
         height - 5.7 * cm,
         f"Date : {report.activity_date.strftime('%B %d, %Y')}"
     )    

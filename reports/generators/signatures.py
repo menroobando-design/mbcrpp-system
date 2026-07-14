@@ -15,7 +15,7 @@ def draw_signatures(c, report):
 
     c.drawString(
         2 * cm,
-        y + 2 * cm,
+        y + 2.5 * cm,
         "B. Photo Documentation (attach photos of the clean-up drive here)"
     )
 
