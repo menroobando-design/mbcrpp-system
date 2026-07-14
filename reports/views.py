@@ -304,7 +304,7 @@ def download_pdf(request, report_id):
         if report.barangay != profile.barangay:
             return redirect("report_list")
 
-    from .pdf_generator import generate_report_pdf
+    from .generators.pdf_generator import generate_report_pdf
 
     pdf_file = generate_report_pdf(report)
 
