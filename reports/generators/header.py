@@ -1,7 +1,6 @@
 import os
 
 from django.conf import settings
-
 from reportlab.lib.units import cm
 from reportlab.lib.colors import black
 
@@ -13,7 +12,7 @@ def draw_header(c, report):
     # ---------------------------------------------------
     # LOGO PATHS
     # ---------------------------------------------------
-    
+
     bagong_logo = os.path.join(
         settings.BASE_DIR,
         "static",
@@ -22,52 +21,35 @@ def draw_header(c, report):
     )
 
     # Barangay logo
-
     barangay_logo = None
 
     if report.barangay.logo:
-       barangay_logo = report.barangay.logo.path
+        barangay_logo = report.barangay.logo.path
 
-    print("=" * 50)
-    print("Barangay:", report.barangay.name)
-
-    if report.barangay.logo:
-        print("Logo name:", report.barangay.logo.name)
-        print("Logo path:", report.barangay.logo.path)
-        print("Exists:", os.path.exists(report.barangay.logo.path))
-    else:
-        print("No logo stored in database.")
-
-    print("=" * 50)
-    
     # ---------------------------------------------------
     # DRAW LOGOS
     # ---------------------------------------------------
 
     logo_size = 2.5 * cm
 
-
     if barangay_logo and os.path.exists(barangay_logo):
-        try:
-            c.drawImage(
-                barangay_logo,
-                2 * cm,
-                height - 3.8 * cm,
-                width=logo_size,
-                height=logo_size,
-                preserveAspectRatio=True,
-                mask="auto",
-            )
-            print("Barangay logo drawn successfully.")
-        except Exception as e:
-            print("Error drawing barangay logo:", e)
+
+        c.drawImage(
+            barangay_logo,
+            2 * cm,
+            height - 4 * cm,
+            width=logo_size,
+            height=logo_size,
+            preserveAspectRatio=True,
+            mask="auto",
+        )
 
     if os.path.exists(bagong_logo):
 
         c.drawImage(
             bagong_logo,
             width - 4.5 * cm,
-            height - 3.8 * cm,
+            height - 4 * cm,
             width=logo_size,
             height=logo_size,
             preserveAspectRatio=True,
@@ -81,59 +63,88 @@ def draw_header(c, report):
     c.setFillColor(black)
 
     c.setFont("Helvetica", 10)
-    c.drawCentredString(width / 2, height - 1.2 * cm, "Republic of the Philippines")
+    c.drawCentredString(
+        width / 2,
+        height - 1.2 * cm,
+        "Republic of the Philippines"
+    )
 
-    c.drawCentredString(width / 2, height - 1.7 * cm, "Province of Bulacan")
+    c.drawCentredString(
+        width / 2,
+        height - 1.7 * cm,
+        "Province of Bulacan"
+    )
 
-    c.drawCentredString(width / 2, height - 2.2 * cm, "Municipality of Obando")
+    c.drawCentredString(
+        width / 2,
+        height - 2.2 * cm,
+        "Municipality of Obando"
+    )
 
     c.setFont("Helvetica-Bold", 12)
+
     c.drawCentredString(
         width / 2,
         height - 2.9 * cm,
         f"BARANGAY {report.barangay.name.upper()}"
     )
 
-    # Annex
+    # ---------------------------------------------------
+    # ANNEX
+    # ---------------------------------------------------
 
     c.setFont("Helvetica-Bold", 10)
 
     c.drawCentredString(
         width - 3.25 * cm,
-        height - 4.2 * cm,
+        height - 4.4 * cm,
         'ANNEX "A"'
     )
 
-    # Form
+    # ---------------------------------------------------
+    # FORM
+    # ---------------------------------------------------
 
     c.setFont("Helvetica-Oblique", 8)
 
     c.drawCentredString(
         3.5 * cm,
-        height - 4.2 * cm,
+        height - 4.4 * cm,
         "(Form 1 Barangay)"
     )
+
+    # ---------------------------------------------------
+    # TITLE
+    # ---------------------------------------------------
 
     c.setFont("Helvetica-Bold", 11)
 
     c.drawCentredString(
         width / 2,
-        height - 4.8 * cm,
+        height - 5.0 * cm,
         "MANILA BAY CLEAN-UP, REHABILITATION AND PRESERVATION PROGRAM"
     )
+
+    # ---------------------------------------------------
+    # DATE
+    # ---------------------------------------------------
 
     c.setFont("Helvetica", 10)
 
     c.drawString(
         9 * cm,
-        height - 5.4 * cm,
+        height - 5.7 * cm,
         f"Date : {report.activity_date.strftime('%B %d, %Y')}"
-    )    
+    )
+
+    # ---------------------------------------------------
+    # ACTIVITY TITLE
+    # ---------------------------------------------------
 
     c.setFont("Helvetica-Bold", 11)
 
     c.drawCentredString(
         width / 2,
-        height - 5.9 * cm,
+        height - 6.4 * cm,
         "CONDUCT OF WEEKLY CLEAN-UP DRIVE"
     )
