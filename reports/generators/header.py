@@ -26,9 +26,13 @@ def draw_header(c, report):
     barangay_logo = None
 
     if report.barangay.logo:
+       barangay_logo = report.barangay.logo.path
 
-        barangay_logo = report.barangay.logo.path
+    print("Barangay logo path:", barangay_logo)
 
+    if barangay_logo:
+        print("Exists:", os.path.exists(barangay_logo))
+    
     # ---------------------------------------------------
     # DRAW LOGOS
     # ---------------------------------------------------
@@ -41,7 +45,7 @@ def draw_header(c, report):
         c.drawImage(
             barangay_logo,
             2 * cm,
-            height - 4 * cm,
+            height - 3.8 * cm,
             width=logo_size,
             height=logo_size,
             preserveAspectRatio=True,
@@ -53,7 +57,7 @@ def draw_header(c, report):
         c.drawImage(
             bagong_logo,
             width - 4.5 * cm,
-            height - 4 * cm,
+            height - 3.8 * cm,
             width=logo_size,
             height=logo_size,
             preserveAspectRatio=True,
@@ -86,7 +90,7 @@ def draw_header(c, report):
 
     c.drawCentredString(
         width - 3.25 * cm,
-        height - 4.4 * cm,
+        height - 4.2 * cm,
         'ANNEX "A"'
     )
 
@@ -96,7 +100,7 @@ def draw_header(c, report):
 
     c.drawCentredString(
         3.5 * cm,
-        height - 4.4 * cm,
+        height - 4.2 * cm,
         "(Form 1 Barangay)"
     )
 
@@ -104,7 +108,7 @@ def draw_header(c, report):
 
     c.drawCentredString(
         width / 2,
-        height - 5.0 * cm,
+        height - 4.8 * cm,
         "MANILA BAY CLEAN-UP, REHABILITATION AND PRESERVATION PROGRAM"
     )
 
@@ -112,7 +116,7 @@ def draw_header(c, report):
 
     c.drawString(
         9 * cm,
-        height - 5.7 * cm,
+        height - 5.4 * cm,
         f"Date : {report.activity_date.strftime('%B %d, %Y')}"
     )    
 
@@ -120,6 +124,6 @@ def draw_header(c, report):
 
     c.drawCentredString(
         width / 2,
-        height - 6.4 * cm,
+        height - 5.9 * cm,
         "CONDUCT OF WEEKLY CLEAN-UP DRIVE"
     )
