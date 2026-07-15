@@ -40,7 +40,7 @@ def draw_header(c, report):
 
         c.drawImage(
             barangay_logo,
-            8.8 * cm,
+            2 * cm,
             height - 4 * cm,
             width=logo_size,
             height=logo_size,
