@@ -7,7 +7,7 @@ def draw_information_table(c, report):
 
     width, height = c._pagesize
 
-    y = height - 5.7 * cm
+    y = height - 6.3 * cm
 
     # -------------------------------------------------
     # BARANGAY
@@ -102,7 +102,7 @@ def draw_information_table(c, report):
     table.drawOn(
         c,
         1.3 * cm,
-        y - 4.3 * cm
+        y - 5.2 * cm
     )
 
     # -------------------------------------------------
@@ -156,5 +156,5 @@ def draw_information_table(c, report):
     remarks_table.drawOn(
         c,
         1.3 * cm,
-        y - 6.9 * cm
+        y - 8.2 * cm
     )
