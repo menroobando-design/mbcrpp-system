@@ -7,7 +7,6 @@ from reportlab.pdfgen import canvas
 from .header import draw_header
 from .tables import draw_information_table
 from .signatures import draw_signatures
-from .photos import draw_photo_pages
 from reportlab.lib.utils import ImageReader
 from reportlab.lib.units import inch
 
@@ -103,8 +102,6 @@ def generate_report_pdf(report):
         if photos:
 
             draw_photo_page(c, title, photos)
-    
-    c.showPage()
 
     c.save()
 
