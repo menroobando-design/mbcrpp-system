@@ -28,13 +28,16 @@ def barangay_create(request):
 
         if form.is_valid():
 
+            print("FILES:", request.FILES)
+            print("CLEANED DATA:", form.cleaned_data)
+
             form.save()
 
             return redirect("barangay_list")
 
-    else:
+        else:
 
-        form = BarangayForm()
+            print("FORM ERRORS:", form.errors)
 
     return render(
         request,
