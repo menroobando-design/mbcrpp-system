@@ -28,10 +28,17 @@ def draw_header(c, report):
     if report.barangay.logo:
        barangay_logo = report.barangay.logo.path
 
-    print("Barangay logo path:", barangay_logo)
+    print("=" * 50)
+    print("Barangay:", report.barangay.name)
 
-    if barangay_logo:
-        print("Exists:", os.path.exists(barangay_logo))
+    if report.barangay.logo:
+        print("Logo name:", report.barangay.logo.name)
+        print("Logo path:", report.barangay.logo.path)
+        print("Exists:", os.path.exists(report.barangay.logo.path))
+    else:
+        print("No logo stored in database.")
+
+    print("=" * 50)
     
     # ---------------------------------------------------
     # DRAW LOGOS
@@ -41,16 +48,19 @@ def draw_header(c, report):
 
 
     if barangay_logo and os.path.exists(barangay_logo):
-
-        c.drawImage(
-            barangay_logo,
-            2 * cm,
-            height - 3.8 * cm,
-            width=logo_size,
-            height=logo_size,
-            preserveAspectRatio=True,
-            mask="auto",
-        )
+        try:
+            c.drawImage(
+                barangay_logo,
+                2 * cm,
+                height - 3.8 * cm,
+                width=logo_size,
+                height=logo_size,
+                preserveAspectRatio=True,
+                mask="auto",
+            )
+            print("Barangay logo drawn successfully.")
+        except Exception as e:
+            print("Error drawing barangay logo:", e)
 
     if os.path.exists(bagong_logo):
 
