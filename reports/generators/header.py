@@ -20,17 +20,8 @@ def draw_header(c, report):
         "bagong.png"
     )
 
-    # Barangay logo
-    bagong_logo = os.path.join(
-        settings.BASE_DIR,
-        "static",
-        "images",
-        "bagong.png"
-    )
-
     barangay_filename = (
-        report.barangay.name
-        .lower()
+        report.barangay.name.lower()
         .replace(" ", "_")
         + ".png"
     )
@@ -39,7 +30,7 @@ def draw_header(c, report):
         settings.BASE_DIR,
         "static",
         "images",
-        barangay_filename,
+        barangay_filename
     )
 
     # ---------------------------------------------------
@@ -49,19 +40,17 @@ def draw_header(c, report):
     logo_size = 2.5 * cm
 
     if os.path.exists(barangay_logo):
-
-    c.drawImage(
-        barangay_logo,
-        2 * cm,
-        height - 4 * cm,
-        width=logo_size,
-        height=logo_size,
-        preserveAspectRatio=True,
-        mask="auto",
-    )
+        c.drawImage(
+            barangay_logo,
+            2 * cm,
+            height - 4 * cm,
+            width=logo_size,
+            height=logo_size,
+            preserveAspectRatio=True,
+            mask="auto",
+        )
 
     if os.path.exists(bagong_logo):
-
         c.drawImage(
             bagong_logo,
             width - 4.5 * cm,
@@ -71,7 +60,6 @@ def draw_header(c, report):
             preserveAspectRatio=True,
             mask="auto",
         )
-
     # ---------------------------------------------------
     # HEADER TEXT
     # ---------------------------------------------------
