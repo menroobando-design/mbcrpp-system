@@ -1,32 +1,33 @@
-/* ==========================================
-   MBCRPP Monitoring System
-   Municipality of Obando
-========================================== */
+/* ==========================================================
+   MENRO ONLINE REPORTING SYSTEM (MENRO-ORS)
+   Municipality of Obando, Bulacan
+========================================================== */
+
+/* ==========================================================
+   GLOBAL
+========================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
 body,
 .main-body{
 
     font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;
 
-    background-image:url("../images/body_bg.jpg");
-
+    background:url("../images/body_bg.jpg") center center fixed;
     background-size:cover;
-
-    background-position:center;
-
-    background-repeat:no-repeat;
-
-    background-attachment:fixed;
 
     min-height:100vh;
 
-    min-width:1400px;
-
-    overflow-x:auto;
+    color:#1b1b1b;
 
 }
 
-/* White transparent overlay */
+/* Soft white overlay */
 
 .main-body::before{
 
@@ -34,55 +35,55 @@ body,
 
     position:fixed;
 
-    top:0;
+    inset:0;
 
-    left:0;
-
-    width:100%;
-
-    height:100%;
-
-    background:white;
-
-    opacity:.88;
+    background:rgba(255,255,255,.82);
 
     z-index:-1;
 
 }
 
-/* ==========================================
+/* ==========================================================
    HEADER BANNER
-========================================== */
+========================================================== */
 
 .official-banner{
 
-    padding:0;
+    width:100%;
 
-    margin:0;
+    background:#fff;
 
-    background:none;
+    overflow:hidden;
 
-    border:none;
+    box-shadow:0 3px 12px rgba(0,0,0,.15);
+
+    border-bottom:4px solid #198754;
 
 }
 
-.official-banner img{
+.header-banner-img{
 
     width:100%;
+
+    height:170px;
+
+    object-fit:cover;
 
     display:block;
 
 }
 
-/* ==========================================
-   TOP BLUE BAR
-========================================== */
+/* ==========================================================
+   TOP BAR
+========================================================== */
 
 .top-bar{
 
-    background:#0d6efd;
+    background:linear-gradient(90deg,#0b5ed7,#0d6efd);
 
     color:white;
+
+    padding:12px 30px;
 
     display:flex;
 
@@ -90,15 +91,13 @@ body,
 
     align-items:center;
 
-    padding:10px 25px;
-
-    box-shadow:0 3px 10px rgba(0,0,0,.15);
+    box-shadow:0 2px 10px rgba(0,0,0,.15);
 
 }
 
 .portal-name{
 
-    font-size:20px;
+    font-size:21px;
 
     font-weight:700;
 
@@ -108,33 +107,33 @@ body,
 
     display:flex;
 
-    align-items:center;
-
     gap:25px;
 
-    font-size:16px;
+    font-size:15px;
+
+    align-items:center;
 
 }
 
-/* ==========================================
+/* ==========================================================
    SIDEBAR
-========================================== */
+========================================================== */
 
 .sidebar{
 
-    background:#ffffff;
+    background:white;
 
     min-height:100vh;
 
-    border-right:1px solid #d9e2ef;
+    border-right:1px solid #dfe6ef;
 
-    box-shadow:2px 0 10px rgba(0,0,0,.08);
+    box-shadow:3px 0 10px rgba(0,0,0,.08);
 
 }
 
 .sidebar-menu{
 
-    padding:15px;
+    padding:18px;
 
 }
 
@@ -150,11 +149,11 @@ body,
 
     margin-bottom:8px;
 
-    border-radius:10px;
-
-    color:#1f2d3d;
+    border-radius:12px;
 
     text-decoration:none;
+
+    color:#333;
 
     font-weight:600;
 
@@ -164,15 +163,15 @@ body,
 
 .sidebar-link i{
 
-    font-size:20px;
-
     color:#0d6efd;
+
+    font-size:20px;
 
 }
 
 .sidebar-link:hover{
 
-    background:#e8f1ff;
+    background:#e8f2ff;
 
     color:#0d6efd;
 
@@ -180,37 +179,23 @@ body,
 
 }
 
-/* ==========================================
-   BUTTONS
-========================================== */
+.sidebar-link.active{
 
-.btn{
+    background:#0d6efd;
 
-    border-radius:8px;
-
-    font-weight:600;
+    color:white;
 
 }
 
-/* ==========================================
-   CARDS
-========================================== */
+.sidebar-link.active i{
 
-.card{
-
-    border:none;
-
-    border-radius:16px;
-
-    box-shadow:0 6px 18px rgba(0,0,0,.08);
+    color:white;
 
 }
 
-.card-header{
-
-    border-radius:16px 16px 0 0 !important;
-
-}
+/* ==========================================================
+   DASHBOARD CARDS
+========================================================== */
 
 .dashboard-card{
 
@@ -218,7 +203,7 @@ body,
 
     border-radius:18px;
 
-    padding:22px;
+    padding:20px;
 
     display:flex;
 
@@ -226,11 +211,11 @@ body,
 
     gap:18px;
 
-    box-shadow:0 8px 18px rgba(0,0,0,.08);
+    border-left:6px solid #0d6efd;
 
-    transition:.3s;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
 
-    border-bottom:4px solid #0d6efd;
+    transition:.30s;
 
 }
 
@@ -238,7 +223,7 @@ body,
 
     transform:translateY(-5px);
 
-    box-shadow:0 14px 30px rgba(0,0,0,.16);
+    box-shadow:0 14px 30px rgba(0,0,0,.15);
 
 }
 
@@ -252,51 +237,83 @@ body,
 
     background:#0d6efd;
 
-    color:white;
-
     display:flex;
 
     justify-content:center;
 
     align-items:center;
 
-    font-size:32px;
+    color:white;
+
+    font-size:30px;
 
 }
 
 .card-details small{
 
-    color:#0d6efd;
-
     font-weight:700;
 
-    letter-spacing:.5px;
+    color:#0d6efd;
+
+    text-transform:uppercase;
+
+    letter-spacing:.8px;
 
 }
 
 .card-details h2{
 
-    font-size:36px;
+    font-size:34px;
 
     font-weight:700;
 
-    margin:6px 0;
+    margin:5px 0;
 
 }
 
 .card-details span{
 
-    color:#777;
+    color:#666;
+
+    font-size:14px;
 
 }
 
-/* ==========================================
+/* ==========================================================
+   BOOTSTRAP CARDS
+========================================================== */
+
+.card{
+
+    border:none;
+
+    border-radius:16px;
+
+    overflow:hidden;
+
+    box-shadow:0 8px 18px rgba(0,0,0,.08);
+
+}
+
+.card-header{
+
+    font-weight:700;
+
+    border:none;
+
+}
+
+/* ==========================================================
    TABLES
-========================================== */
+========================================================== */
 
 .table{
 
     background:white;
+
+    border-radius:12px;
+
+    overflow:hidden;
 
 }
 
@@ -312,39 +329,63 @@ body,
 
     font-weight:700;
 
+    text-align:center;
+
 }
 
-/* ==========================================
+.table td{
+
+    vertical-align:middle;
+
+}
+
+/* ==========================================================
+   BUTTONS
+========================================================== */
+
+.btn{
+
+    border-radius:8px;
+
+    font-weight:600;
+
+    transition:.25s;
+
+}
+
+.btn:hover{
+
+    transform:translateY(-2px);
+
+}
+
+/* ==========================================================
    LIST GROUP
-========================================== */
+========================================================== */
 
 .list-group-item{
 
     border:none;
 
-    font-weight:500;
+    font-weight:600;
 
 }
 
 .list-group-item:hover{
 
-    background:#dff5e8;
-
-    color:#0b6b3a;
+    background:#eaf7ef;
 
 }
 
-/* ==========================================
-   NAVBAR (if used elsewhere)
-========================================== */
+/* ==========================================================
+   NAVBAR (Optional)
+========================================================== */
 
 .navbar{
 
     background:linear-gradient(90deg,#0b6b3a,#198754);
 
-    border-bottom:5px solid #f4c542;
-
-    padding:12px 20px;
+    border-bottom:5px solid #ffc107;
 
 }
 
@@ -357,5 +398,162 @@ body,
 .navbar small{
 
     font-size:13px;
+
+}
+
+/* ==========================================================
+   CONTENT AREA
+========================================================== */
+
+.content-wrapper{
+
+    padding:25px;
+
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width:992px){
+
+    .official-banner img{
+
+        height:110px;
+
+    }
+
+    .top-bar{
+
+        flex-direction:column;
+
+        gap:10px;
+
+        text-align:center;
+
+    }
+
+    .sidebar{
+
+        min-height:auto;
+
+    }
+
+}
+
+
+/* ==========================================
+   LOGIN PAGE
+========================================== */
+
+.login-page{
+
+    min-height:80vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+.login-card{
+
+    width:420px;
+
+    background:rgba(255,255,255,.90);
+
+    backdrop-filter:blur(12px);
+
+    border-radius:20px;
+
+    padding:35px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+
+    text-align:center;
+
+}
+
+.login-logo{
+
+    width:140px;
+
+    margin-bottom:20px;
+
+}
+
+.login-card h2{
+
+    color:#0b6b3a;
+
+    font-weight:800;
+
+    margin-bottom:0;
+
+}
+
+.login-card h5{
+
+    color:#0d6efd;
+
+    font-weight:700;
+
+    margin-bottom:10px;
+
+}
+
+.login-subtitle{
+
+    font-size:13px;
+
+    color:#666;
+
+    margin-bottom:25px;
+
+}
+
+.login-card label{
+
+    font-weight:600;
+
+    text-align:left;
+
+    display:block;
+
+}
+
+.login-card input{
+
+    width:100%;
+
+    border-radius:10px;
+
+    border:1px solid #ced4da;
+
+    padding:10px 15px;
+
+}
+
+.login-card input:focus{
+
+    border-color:#198754;
+
+    box-shadow:0 0 0 .2rem rgba(25,135,84,.2);
+
+    outline:none;
+
+}
+
+.login-btn{
+
+    border-radius:10px;
+
+    padding:12px;
+
+    font-size:17px;
+
+    font-weight:700;
 
 }

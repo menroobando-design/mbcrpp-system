@@ -1,30 +1,58 @@
 {% extends "layouts/base.html" %}
 
+{% load static %}
+
 {% block content %}
 
-<div class="container" style="max-width:500px; margin-top:80px;">
+<div class="login-page">
 
-    <div class="card shadow">
+    <div class="login-card">
 
-        <div class="card-header bg-success text-white">
-            <h3 class="mb-0">MENRO Environmental Reporting System</h3>
-        </div>
+        <img src="{% static 'images/menro.png' %}"
+             class="login-logo"
+             alt="MENRO Logo">
 
-        <div class="card-body">
+        <h2>MENRO ONLINE</h2>
 
-            <form method="post">
+        <h5>REPORTING SYSTEM</h5>
 
-                {% csrf_token %}
+        <p class="login-subtitle">
+            Manila Bay Clean-Up Rehabilitation and Preservation Program
+        </p>
 
-                {{ form.as_p }}
+        <form method="post">
 
-                <button class="btn btn-success w-100">
-                    Login
-                </button>
+            {% csrf_token %}
 
-            </form>
+            <div class="mb-3">
 
-        </div>
+                <label class="form-label">
+                    Username
+                </label>
+
+                {{ form.username }}
+
+            </div>
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Password
+                </label>
+
+                {{ form.password }}
+
+            </div>
+
+            <button class="btn btn-success w-100 login-btn">
+
+                <i class="bi bi-box-arrow-in-right"></i>
+
+                Login
+
+            </button>
+
+        </form>
 
     </div>
 
