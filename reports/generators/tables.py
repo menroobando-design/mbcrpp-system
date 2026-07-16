@@ -1,13 +1,15 @@
 from reportlab.lib import colors
 from reportlab.lib.units import cm
 from reportlab.platypus import Table, TableStyle
+from reportlab.platypus import Paragraph
+from reportlab.lib.styles import getSampleStyleSheet
 
 
 def draw_information_table(c, report):
 
     width, height = c._pagesize
 
-    y = height - 6.3 * cm
+    y = height - 6.8 * cm
 
     # -------------------------------------------------
     # BARANGAY
@@ -109,6 +111,13 @@ def draw_information_table(c, report):
     # REMARKS TABLE
     # -------------------------------------------------
 
+    styles = getSampleStyleSheet()
+
+    style = styles["BodyText"]
+    style.fontName = "Helvetica"
+    style.fontSize = 9
+    style.leading = 11
+
     remarks = [
 
         [
@@ -117,8 +126,8 @@ def draw_information_table(c, report):
         ],
 
         [
-            report.disposal_method,
-            report.remarks
+        Paragraph(report.disposal_method or "", style),
+        Paragraph(report.remarks or "", style),
         ]
 
     ]

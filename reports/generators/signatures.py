@@ -3,13 +3,11 @@ from reportlab.lib.units import cm
 
 def draw_signatures(c, report):
 
-    width, height = c._pagesize
-
     y = 10.3 * cm
 
-    # ---------------------------------
+    # ------------------------------------
     # SECTION B & C
-    # ---------------------------------
+    # ------------------------------------
 
     c.setFont("Helvetica-Bold", 9)
 
@@ -25,56 +23,77 @@ def draw_signatures(c, report):
         "C. List of Attendees and Total Number of Volunteers."
     )
 
-    # -----------------------------
-    # Prepared by
-    # -----------------------------
+    # ====================================
+    # PREPARED BY
+    # ====================================
 
     c.setFont("Helvetica-Bold", 11)
-    c.drawString(2 * cm, y, "Prepared by:")
 
-    # Signature line
-    c.line(2.5 * cm, y - 1.4 * cm, 8 * cm, y - 1.4 * cm)
+    c.drawString(
+        2 * cm,
+        y,
+        "Prepared by:"
+    )
+
+    # Name
 
     c.setFont("Helvetica-Bold", 10)
+
     c.drawCentredString(
         5.25 * cm,
-        y - 1.8 * cm,
+        y - 1.2 * cm,
         report.barangay.committee_chair or ""
     )
+
+    # Signature line
+
+    c.line(
+        2.5 * cm,
+        y - 1.45 * cm,
+        8 * cm,
+        y - 1.45 * cm
+    )
+
+    # Position
 
     c.setFont("Helvetica", 9)
 
     c.drawCentredString(
         5.25 * cm,
-        y - 2.4 * cm,
+        y - 2.0 * cm,
         "Committee Chair on Environment"
     )
 
     c.drawCentredString(
         5.25 * cm,
-        y - 2.9 * cm,
+        y - 2.5 * cm,
         "or Authorized Representative"
     )
 
     # Date
 
-    c.line(13.5 * cm, y - 1.4 * cm, 18 * cm, y - 1.4 * cm)
-
     c.drawCentredString(
         15.75 * cm,
-        y - 1.8 * cm,
+        y - 1.2 * cm,
         report.activity_date.strftime("%B %d, %Y")
     )
 
+    c.line(
+        13.5 * cm,
+        y - 1.45 * cm,
+        18 * cm,
+        y - 1.45 * cm
+    )
+
     c.drawCentredString(
         15.75 * cm,
-        y - 2.4 * cm,
+        y - 2.0 * cm,
         "Date"
     )
 
-    # -----------------------------
-    # Certified Correct
-    # -----------------------------
+    # ====================================
+    # CERTIFIED CORRECT
+    # ====================================
 
     y -= 4.3 * cm
 
@@ -86,50 +105,58 @@ def draw_signatures(c, report):
         "Certified Correct:"
     )
 
-    c.line(
-        2.5 * cm,
-        y - 1.4 * cm,
-        8 * cm,
-        y - 1.4 * cm
-    )
+    # Name
 
     c.setFont("Helvetica-Bold", 10)
 
     c.drawCentredString(
         5.25 * cm,
-        y - 1.8 * cm,
+        y - 1.2 * cm,
         report.barangay.barangay_captain or ""
     )
+
+    # Signature line
+
+    c.line(
+        2.5 * cm,
+        y - 1.45 * cm,
+        8 * cm,
+        y - 1.45 * cm
+    )
+
+    # Position
 
     c.setFont("Helvetica", 9)
 
     c.drawCentredString(
         5.25 * cm,
-        y - 2.4 * cm,
+        y - 2.0 * cm,
         "Punong Barangay"
     )
 
     c.drawCentredString(
         5.25 * cm,
-        y - 2.9 * cm,
+        y - 2.5 * cm,
         "or Authorized Representative"
+    )
+
+    # Date
+
+    c.drawCentredString(
+        15.75 * cm,
+        y - 1.2 * cm,
+        report.activity_date.strftime("%B %d, %Y")
     )
 
     c.line(
         13.5 * cm,
-        y - 1.4 * cm,
+        y - 1.45 * cm,
         18 * cm,
-        y - 1.4 * cm
+        y - 1.45 * cm
     )
 
     c.drawCentredString(
         15.75 * cm,
-        y - 1.8 * cm,
-        report.activity_date.strftime("%B %d, %Y")
-    )
-
-    c.drawCentredString(
-        15.75 * cm,
-        y - 2.4 * cm,
+        y - 2.0 * cm,
         "Date"
     )
