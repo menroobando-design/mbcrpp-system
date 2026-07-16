@@ -20,18 +20,35 @@ def draw_header(c, report):
         "bagong.png"
     )
 
-    barangay_filename = (
-        report.barangay.name.lower()
+    barangay_name = (
+        report.barangay.name
+        .lower()
         .replace(" ", "_")
-        + ".png"
     )
 
-    barangay_logo = os.path.join(
+    png_logo = os.path.join(
         settings.BASE_DIR,
         "static",
         "images",
-        barangay_filename
+        f"{barangay_name}.png"
     )
+
+    jpg_logo = os.path.join(
+        settings.BASE_DIR,
+        "static",
+        "images",
+        f"{barangay_name}.jpg"
+    )
+
+    if os.path.exists(png_logo):
+        barangay_logo = png_logo
+    elif os.path.exists(jpg_logo):
+        barangay_logo = jpg_logo
+    else:
+        barangay_logo = None
+
+    print("Looking for:", barangay_logo)
+    print("Exists:", os.path.exists(barangay_logo))
 
     # ---------------------------------------------------
     # DRAW LOGOS
