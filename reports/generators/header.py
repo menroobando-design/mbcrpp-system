@@ -21,10 +21,26 @@ def draw_header(c, report):
     )
 
     # Barangay logo
-    barangay_logo = None
+    bagong_logo = os.path.join(
+        settings.BASE_DIR,
+        "static",
+        "images",
+        "bagong.png"
+    )
 
-    if report.barangay.logo:
-        barangay_logo = report.barangay.logo.path
+    barangay_filename = (
+        report.barangay.name
+        .lower()
+        .replace(" ", "_")
+        + ".png"
+    )
+
+    barangay_logo = os.path.join(
+        settings.BASE_DIR,
+        "static",
+        "images",
+        barangay_filename,
+    )
 
     # ---------------------------------------------------
     # DRAW LOGOS
@@ -32,33 +48,17 @@ def draw_header(c, report):
 
     logo_size = 2.5 * cm
 
-    from reportlab.lib.utils import ImageReader
+    if os.path.exists(barangay_logo):
 
-    if barangay_logo and os.path.exists(barangay_logo):
-
-        try:
-            img = ImageReader(barangay_logo)
-
-            c.drawImage(
-                img,
-                2 * cm,
-                height - 4 * cm,
-                width=logo_size,
-                height=logo_size,
-                preserveAspectRatio=True,
-                mask="auto",
-            )
-
-        except Exception as e:
-            print("ERROR DRAWING LOGO:", e)
-
-            c.setFillColorRGB(1, 0, 0)
-            c.setFont("Helvetica-Bold", 10)
-            c.drawString(
-                2 * cm,
-                height - 5 * cm,
-                "BARANGAY LOGO FAILED"
-            )
+    c.drawImage(
+        barangay_logo,
+        2 * cm,
+        height - 4 * cm,
+        width=logo_size,
+        height=logo_size,
+        preserveAspectRatio=True,
+        mask="auto",
+    )
 
     if os.path.exists(bagong_logo):
 
