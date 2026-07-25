@@ -147,7 +147,6 @@ def statistics(request):
             biodegradable=Sum("biodegradable"),
             recyclable=Sum("recyclable"),
             residual=Sum("residual"),
-            potential=Sum("potential"),
         )
         .order_by("month")
     )
@@ -161,7 +160,6 @@ def statistics(request):
             (item["biodegradable"] or 0)
             + (item["recyclable"] or 0)
             + (item["residual"] or 0)
-            + (item["potential"] or 0)
         )
 
         month_labels.append(
@@ -184,10 +182,6 @@ def statistics(request):
 
     residual = float(
         reports.aggregate(total=Sum("residual"))["total"] or 0
-    )
-
-    potential = float(
-        reports.aggregate(total=Sum("potential"))["total"] or 0
     )
 
     # ==========================
@@ -251,8 +245,6 @@ def statistics(request):
         "recyclable": recyclable,
 
         "residual": residual,
-
-        "potential": potential,
 
         "barangay_labels": barangay_labels,
 

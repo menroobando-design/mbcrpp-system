@@ -218,13 +218,8 @@ class DCFReport(models.Model):
     residual = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        default=0
-    )
-
-    diverted = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        default=0
+        default=0,
+        verbose_name="Residual w/ Potential (kg)"
     )
 
     # ===================================================
@@ -269,6 +264,5 @@ class DCFReport(models.Model):
         return (
             self.biodegradable +
             self.recyclable +
-            self.residual +
-            self.diverted
+            self.residual             
         )   

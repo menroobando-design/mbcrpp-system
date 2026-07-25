@@ -14,31 +14,23 @@ class WeeklyReportForm(forms.ModelForm):
         model = WeeklyReport
 
         labels = {
-
-            "biodegradable":"Biodegradable (kg)",
-
-            "recyclable":"Recyclable (kg)",
-
-            "residual":"Residual (kg)",
-
-            "potential":"Potential (kg)",
-
-            "disposal_method":"Method of Disposal",
-
+            "biodegradable": "Biodegradable (kg)",
+            "recyclable": "Recyclable (kg)",
+            "residual": "Residual w/ Potential (kg)",
+            "disposal_method": "Method of Disposal",
         }
 
         fields = [
-           "week_covered",
-           "activity_date",
-           "activity_location",
-           "length_covered",
-           "participants",
-           "biodegradable",
-           "recyclable",
-           "residual",
-           "potential",           
-           "disposal_method",
-           "remarks",
+            "week_covered",
+            "activity_date",
+            "activity_location",
+            "length_covered",
+            "participants",
+            "biodegradable",
+            "recyclable",
+            "residual",
+            "disposal_method",
+            "remarks",
         ]
 
         widgets = {

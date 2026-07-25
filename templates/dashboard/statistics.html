@@ -150,7 +150,7 @@ Statistics
 {{ biodegradable|json_script:"bio" }}
 {{ recyclable|json_script:"recycle" }}
 {{ residual|json_script:"residual" }}
-{{ potential|json_script:"potential" }}
+
 {{ barangay_labels|json_script:"barangay-labels" }}
 {{ barangay_totals|json_script:"barangay-totals" }}
 
@@ -259,16 +259,14 @@ new Chart(
             labels: [
                 "Biodegradable",
                 "Recyclable",
-                "Residual",
-                "Potential"
+                "Residual w/ Potential"
             ],
 
             datasets: [{
                 data: [
                     JSON.parse(document.getElementById("bio").textContent),
                     JSON.parse(document.getElementById("recycle").textContent),
-                    JSON.parse(document.getElementById("residual").textContent),
-                    JSON.parse(document.getElementById("potential").textContent)
+                    JSON.parse(document.getElementById("residual").textContent)
                 ]
             }]
         },
