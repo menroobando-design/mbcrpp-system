@@ -8,13 +8,21 @@ from .header import draw_header
 from .tables import draw_information_table
 from .signatures import draw_signatures
 from reportlab.lib.utils import ImageReader
-from reportlab.lib.units import inch
+from reportlab.lib.units import inch, cm
+
+# ====================================
+# PHOTO SETTINGS
+# ====================================
+
+PHOTO_WIDTH = 10 * cm
+PHOTO_HEIGHT = 16 * cm
 
 
 def draw_photo_page(c, title, photos):
     """
-    Draws one category page.
+    Draw one category page.
     Maximum of 2 photos per page.
+    Images fit inside a 10cm × 16cm box while preserving aspect ratio.
     """
 
     width, height = A4
@@ -25,12 +33,29 @@ def draw_photo_page(c, title, photos):
 
         c.showPage()
 
+        # -------------------------
+        # Title
+        # -------------------------
+
         c.setFont("Helvetica-Bold", 13)
-        c.drawCentredString(width / 2, height - 45, title.upper())
 
-        y = height - 180
+        c.drawCentredString(
+            width / 2,
+            height - 45,
+            title.upper()
+        )
 
-        for _ in range(2):
+        # Top image position
+
+        positions = [
+
+            height - 250,
+
+            height - 520,
+
+        ]
+
+        for y in positions:
 
             if index >= len(photos):
                 break
@@ -38,22 +63,49 @@ def draw_photo_page(c, title, photos):
             photo = photos[index]
 
             try:
+
                 img = ImageReader(photo.image.path)
 
+                # -------------------------
+                # Get original image size
+                # -------------------------
+
+                img_width, img_height = img.getSize()
+
+                scale = min(
+                    PHOTO_WIDTH / img_width,
+                    PHOTO_HEIGHT / img_height
+                )
+
+                draw_width = img_width * scale
+                draw_height = img_height * scale
+
+                x = (width - draw_width) / 2
+
                 c.drawImage(
+
                     img,
-                    120,
+
+                    x,
+
                     y,
-                    width=4.3 * inch,
-                    height=3.2 * inch,
+
+                    width=draw_width,
+
+                    height=draw_height,
+
                     preserveAspectRatio=True,
-                    anchor="c",
+
                 )
 
             except Exception:
-                c.drawString(120, y, "Unable to load image.")
 
-            y -= 270
+                c.drawCentredString(
+                    width / 2,
+                    y + 120,
+                    "Unable to load image."
+                )
+
             index += 1
 
 
