@@ -1,8 +1,21 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .models import WeeklyReport, ReportPhoto
-from .forms import WeeklyReportForm, ReportPhotoForm
+from .models import (
+    WeeklyReport,
+    ReportPhoto,
+    DCFReport,
+)
+
+from .forms import (
+    WeeklyReportForm,
+    ReportPhotoForm,
+    DCFReportForm,
+    DCFStep2Form,
+    DCFStep3Form,
+    DCFStep4Form,
+)
+
 from users.models import UserProfile
 from django.http import FileResponse
 from .docx_generator import generate_report_docx
@@ -350,3 +363,224 @@ def returned_reports(request):
             "reports": reports
         }
     )
+
+
+# ==========================================
+# DCF REPORT LIST
+# ==========================================
+
+@login_required
+def dcf_report_list(request):
+
+    if request.user.is_staff:
+
+        reports = DCFReport.objects.all().order_by("-created_at")
+
+    else:
+
+        reports = DCFReport.objects.filter(
+            submitted_by=request.user
+        ).order_by("-created_at")
+
+    return render(
+
+        request,
+
+        "reports/dcf/list.html",
+
+        {
+
+            "reports": reports,
+
+        }
+
+    )
+
+
+
+# ==========================================
+# DCF REPORTS
+# ==========================================
+
+@login_required
+def dcf_step1(request):
+
+    if request.method == "POST":
+
+        form = DCFReportForm(request.POST)
+
+        if form.is_valid():
+
+            profile = UserProfile.objects.get(user=request.user)
+
+            report = form.save(commit=False)
+
+            report.submitted_by = request.user
+
+            report.barangay = profile.barangay
+
+            report.save()
+
+            return redirect(
+                "dcf_step2",
+                report.id
+            )
+
+    else:
+
+        form = DCFReportForm()
+
+    return render(
+
+        request,
+
+        "reports/dcf/step1.html",
+
+        {
+
+            "form": form,
+
+        }
+
+    )
+
+@login_required
+def dcf_step2(request, report_id):
+
+    report = get_object_or_404(
+        DCFReport,
+        pk=report_id
+    )
+
+    if request.method == "POST":
+
+        form = DCFStep2Form(
+            request.POST,
+            instance=report
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            return redirect(
+                "dcf_step3",
+                report.id
+            )
+
+    else:
+
+        form = DCFStep2Form(
+            instance=report
+        )
+
+    return render(
+
+        request,
+
+        "reports/dcf/step2.html",
+
+        {
+
+            "form": form,
+
+            "report": report,
+
+        }
+
+    )
+
+
+@login_required
+def dcf_step3(request, report_id):
+
+    report = get_object_or_404(
+        DCFReport,
+        pk=report_id
+    )
+
+    if request.method == "POST":
+
+        form = DCFStep3Form(
+            request.POST,
+            instance=report
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            return redirect(
+                "dcf_step4",
+                report.id
+            )
+
+    else:
+
+        form = DCFStep3Form(
+            instance=report
+        )
+
+    return render(
+
+        request,
+
+        "reports/dcf/step3.html",
+
+        {
+
+            "form": form,
+
+            "report": report,
+
+        }
+
+    )
+
+
+@login_required
+def dcf_step4(request, report_id):
+
+    report = get_object_or_404(
+        DCFReport,
+        pk=report_id
+    )
+
+    if request.method == "POST":
+
+        form = DCFStep4Form(
+            request.POST,
+            instance=report
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            return redirect(
+                "dcf_step5",
+                report.id
+            )
+
+    else:
+
+        form = DCFStep4Form(
+            instance=report
+        )
+
+    return render(
+
+        request,
+
+        "reports/dcf/step4.html",
+
+        {
+
+            "form": form,
+
+            "report": report,
+
+        }
+
+    )
+

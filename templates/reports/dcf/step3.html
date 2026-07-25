@@ -1,0 +1,95 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow-lg">
+
+        <div class="card-header bg-success text-white">
+
+            <h3>
+                Manila Bayanihan Form 2.2
+            </h3>
+
+            <h5 class="mb-0">
+                Step 3 of 10
+            </h5>
+
+            <small>
+                Barangay Solid Waste Management Program
+            </small>
+
+        </div>
+
+        <div class="card-body">
+
+            <!-- Progress Bar -->
+
+            <div class="progress mb-4">
+
+                <div class="progress-bar bg-success"
+                     role="progressbar"
+                     style="width:30%;">
+
+                    30%
+
+                </div>
+
+            </div>
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+
+                        Is there a Barangay Solid Waste Management Program?
+
+                    </label>
+
+                    {{ form.has_swm_program }}
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+
+                        Describe the Barangay SWM Program
+
+                    </label>
+
+                    {{ form.swm_program_description }}
+
+                </div>
+
+                <div class="d-flex justify-content-between">
+
+                    <a href="{% url 'dcf_step2' report.id %}"
+                       class="btn btn-secondary">
+
+                        ← Previous
+
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-success">
+
+                        Save & Continue →
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -39,6 +39,10 @@ def barangay_create(request):
 
             print("FORM ERRORS:", form.errors)
 
+    else:
+
+        form = BarangayForm()
+
     return render(
         request,
         "barangays/form.html",

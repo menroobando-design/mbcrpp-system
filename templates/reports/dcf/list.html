@@ -1,0 +1,47 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+
+<div class="card shadow-lg">
+
+    <div class="card-header bg-success text-white">
+
+        <h3 class="mb-0">
+            Manila Bayanihan Form 2.2
+        </h3>
+
+        <small>
+            Barangay Data Collection Form (Solid Waste Management)
+        </small>
+
+    </div>
+
+    <div class="card-body text-center">
+
+        <br>
+
+        <h4>
+            Welcome to the DCF Reporting Module
+        </h4>
+
+        <p class="text-muted">
+
+            This module will guide you through the official
+            Manila Bayanihan Form 2.2 one section at a time.
+
+        </p>
+
+        <br>
+
+        <a href="{% url 'dcf_step1' %}"
+           class="btn btn-success btn-lg">
+
+           Start New DCF Report
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

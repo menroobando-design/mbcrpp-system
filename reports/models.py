@@ -52,15 +52,7 @@ class WeeklyReport(models.Model):
         decimal_places=2,
         default=0
     )
-
-    disposal_method = models.TextField(
-        blank=True
-    )
-
-    remarks = models.TextField(
-        blank=True
-    )
-
+    
     disposal_method = models.TextField(
         verbose_name="Method of Disposal",
         blank=True
@@ -142,3 +134,140 @@ class ReportPhoto(models.Model):
     def __str__(self):
 
         return f"{self.report.barangay} - {self.category}"
+    
+class DCFReport(models.Model):
+
+    STATUS_CHOICES = [
+        ("Draft", "Draft"),
+        ("Submitted", "Submitted"),
+        ("Approved", "Approved"),
+        ("Returned", "Returned"),
+    ]
+
+    # ===================================================
+    # GENERAL INFORMATION
+    # ===================================================
+    barangay = models.ForeignKey(
+        Barangay,
+        on_delete=models.CASCADE
+    )
+
+    month = models.CharField(max_length=30)
+    year = models.PositiveIntegerField()
+    week_covered = models.CharField(max_length=100, blank=True)
+
+    submitted_by = models.ForeignKey(
+        "auth.User",
+        on_delete=models.CASCADE
+    )
+
+    # ===================================================
+    # A. BARANGAY SOLID WASTE MANAGEMENT COMMITTEE
+    # ===================================================
+    has_bswmc = models.BooleanField(default=False)
+    bswmc_members = models.PositiveIntegerField(default=0)
+    bswmc_meetings = models.PositiveIntegerField(default=0)
+    has_eo = models.BooleanField(default=False)
+    has_bswm_plan = models.BooleanField(default=False)
+
+    # ===================================================
+    # B. BARANGAY SOLID WASTE MANAGEMENT PROGRAM
+    # ===================================================
+    has_swm_program = models.BooleanField(default=False)
+    swm_program_description = models.TextField(blank=True)
+
+    # ===================================================
+    # C. WEEKLY CLEAN-UP DRIVES
+    # ===================================================
+    cleanup_drives = models.PositiveIntegerField(default=0)
+    cleanup_participants = models.PositiveIntegerField(default=0)
+    cleanup_area = models.CharField(max_length=255, blank=True)
+
+    # ===================================================
+    # D. MANDATORY SEGREGATION & COLLECTION
+    # ===================================================
+    segregation_implemented = models.BooleanField(default=False)
+    collection_schedule = models.CharField(max_length=255, blank=True)
+    households_served = models.PositiveIntegerField(default=0)
+    households_compliant = models.PositiveIntegerField(default=0)
+
+    # ===================================================
+    # E. MATERIALS RECOVERY FACILITY (MRF)
+    # ===================================================
+    has_mrf = models.BooleanField(default=False)
+    mrf_location = models.CharField(max_length=255, blank=True)
+    mrf_operational = models.BooleanField(default=False)
+    mrf_workers = models.PositiveIntegerField(default=0)
+
+    # ===================================================
+    # F. WASTE DIVERSION
+    # ===================================================
+    biodegradable = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
+    )
+
+    recyclable = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
+    )
+
+    residual = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
+    )
+
+    diverted = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
+    )
+
+    # ===================================================
+    # G. ENFORCEMENT
+    # ===================================================
+    has_ordinance = models.BooleanField(default=False)
+    violations_recorded = models.PositiveIntegerField(default=0)
+    penalties_imposed = models.PositiveIntegerField(default=0)
+
+    # ===================================================
+    # H. IEC CAMPAIGN & BEST PRACTICES
+    # ===================================================
+    iec_activities = models.PositiveIntegerField(default=0)
+    iec_participants = models.PositiveIntegerField(default=0)
+    best_practices = models.TextField(blank=True)
+
+    # ===================================================
+    # CERTIFICATION
+    # ===================================================
+    prepared_by = models.CharField(max_length=150, blank=True)
+    certified_by = models.CharField(max_length=150, blank=True)
+
+    # ===================================================
+    # SYSTEM FIELDS
+    # ===================================================
+    menro_remarks = models.TextField(blank=True)
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default="Draft"
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.barangay} - {self.month} {self.year}"
+
+    @property
+    def total_waste(self):
+        return (
+            self.biodegradable +
+            self.recyclable +
+            self.residual +
+            self.diverted
+        )   

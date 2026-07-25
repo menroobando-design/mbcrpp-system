@@ -66,4 +66,34 @@ urlpatterns = [
         views.download_pdf,
         name="download_pdf",
     ),
+
+    path(
+        "dcf/",
+        views.dcf_report_list,
+        name="dcf_report_list",
+    ),
+
+    path(
+        "dcf/new/",
+        views.dcf_step1,
+        name="dcf_step1",
+    ),
+
+    path(
+        "dcf/<int:report_id>/step2/",
+        views.dcf_step2,
+        name="dcf_step2"
+    ),
+
+    path(
+        "dcf/<int:report_id>/step3/",
+        views.dcf_step3,
+        name="dcf_step3"
+    ),
+    
+    path(
+        "dcf/<int:report_id>/step4/",
+        views.dcf_step4,
+        name="dcf_step4",
+    ),
 ]
