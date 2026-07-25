@@ -20,7 +20,6 @@ pycparser==3.0
 pydyf==0.12.1
 pyphen==0.17.2
 python-docx==1.2.0
-pywin32==312
 reportlab==5.0.0
 requests==2.34.2
 six==1.17.0
