@@ -67,6 +67,13 @@ urlpatterns = [
         name="download_pdf",
     ),
 
+    
+    path(
+        "<int:report_id>/delete/",
+        views.delete_report,
+        name="delete_report",
+    ),
+
     path(
         "dcf/",
         views.dcf_report_list,
@@ -96,4 +103,5 @@ urlpatterns = [
         views.dcf_step4,
         name="dcf_step4",
     ),
+
 ]

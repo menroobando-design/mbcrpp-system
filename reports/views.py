@@ -365,6 +365,54 @@ def returned_reports(request):
     )
 
 
+@login_required
+def delete_report(request, report_id):
+
+    report = get_object_or_404(
+        WeeklyReport,
+        pk=report_id
+    )
+
+    # Barangay users
+    if not request.user.is_staff:
+
+        profile = get_object_or_404(
+            UserProfile,
+            user=request.user
+        )
+
+        # They can only delete their own reports
+        if report.barangay != profile.barangay:
+            return redirect("report_list")
+
+        # Only Draft or Returned reports
+        if report.status not in ["Draft", "Returned"]:
+            messages.error(
+                request,
+                "This report can no longer be deleted."
+            )
+            return redirect("report_detail", report.id)
+
+    if request.method == "POST":
+
+        report.delete()
+
+        messages.success(
+            request,
+            "Report deleted successfully."
+        )
+
+        return redirect("report_list")
+
+    return render(
+        request,
+        "reports/delete_report.html",
+        {
+            "report": report
+        }
+    )
+
+
 # ==========================================
 # DCF REPORT LIST
 # ==========================================

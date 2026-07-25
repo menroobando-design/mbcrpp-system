@@ -106,6 +106,21 @@ Weekly Report Details
 
     </a>
 
+    {% if not request.user.is_staff %}
+
+        {% if report.status == "Draft" or report.status == "Returned" %}
+
+            <a href="{% url 'delete_report' report.id %}"
+               class="btn btn-danger">
+
+                🗑 Delete Report
+
+            </a>
+
+        {% endif %}
+
+    {% endif %}
+
     {% if request.user.is_staff %}
 
         <a href="{% url 'approve_report' report.id %}"
@@ -116,14 +131,24 @@ Weekly Report Details
         </a>
 
         <a href="{% url 'return_report' report.id %}"
-           class="btn btn-danger">
+           class="btn btn-warning">
 
             ↩ Return
+
+        </a>
+
+        <a href="{% url 'delete_report' report.id %}"
+           class="btn btn-danger">
+
+            🗑 Delete
 
         </a>
 
     {% endif %}
 
 </div>
+
+
+
 
 {% endblock %}

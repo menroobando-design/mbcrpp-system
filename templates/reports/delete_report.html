@@ -1,0 +1,62 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-header bg-danger text-white">
+        Delete Report
+    </div>
+
+    <div class="card-body">
+
+        <h4>
+            Are you sure you want to delete this report?
+        </h4>
+
+        <p>
+
+            <strong>Barangay:</strong>
+            {{ report.barangay }}
+
+        </p>
+
+        <p>
+
+            <strong>Week:</strong>
+            {{ report.week_covered }}
+
+        </p>
+
+        <p>
+
+            <strong>Status:</strong>
+            {{ report.status }}
+
+        </p>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <a
+                href="{% url 'report_detail' report.id %}"
+                class="btn btn-secondary"
+            >
+                Cancel
+            </a>
+
+            <button
+                type="submit"
+                class="btn btn-danger"
+            >
+                Delete Report
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
