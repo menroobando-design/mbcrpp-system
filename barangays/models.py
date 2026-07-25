@@ -12,6 +12,7 @@ class Barangay(models.Model):
     )
 
     committee_chair = models.CharField(
+        "Environment Committee Chair",
         max_length=150,
         blank=True
     )

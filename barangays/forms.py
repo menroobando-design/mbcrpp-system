@@ -18,8 +18,6 @@ class BarangayForm(forms.ModelForm):
 
             "committee_chair",
 
-            "environment_chair",
-
             "contact_number",
 
             "email",
@@ -41,11 +39,7 @@ class BarangayForm(forms.ModelForm):
             "committee_chair": forms.TextInput(
                 attrs={"class": "form-control"}
             ),
-
-            "environment_chair": forms.TextInput(
-                attrs={"class": "form-control"}
-            ),
-
+            
             "contact_number": forms.TextInput(
                 attrs={"class": "form-control"}
             ),
