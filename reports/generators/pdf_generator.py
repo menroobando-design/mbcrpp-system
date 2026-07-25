@@ -98,13 +98,9 @@ def draw_photo_page(c, title, photos):
 
                 )
 
-            except Exception:
-
-                c.drawCentredString(
-                    width / 2,
-                    y + 120,
-                    "Unable to load image."
-                )
+            except Exception as e:
+                print("IMAGE ERROR:", e)
+                c.drawString(120, y, "Unable to load image.")
 
             index += 1
 
