@@ -64,7 +64,9 @@ def draw_photo_page(c, title, photos):
 
             try:
 
-                img = ImageReader(photo.image.path)
+                from urllib.request import urlopen
+
+                img = ImageReader(urlopen(photo.image.url))
 
                 # -------------------------
                 # Get original image size
