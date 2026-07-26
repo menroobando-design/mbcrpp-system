@@ -403,7 +403,7 @@ def edit_report(request, report_id):
 
     return render(
         request,
-        "reports/create_report.html",
+        "reports/add.html",
         {
             "form": form,
             "report": report,
