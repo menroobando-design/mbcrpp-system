@@ -101,20 +101,16 @@ Weekly Report Details
 
     <a href="{% url 'download_pdf' report.id %}"
        class="btn btn-primary">
-
         📄 Download PDF
-
     </a>
 
     {% if not request.user.is_staff %}
 
         {% if report.status == "Draft" or report.status == "Returned" %}
 
-            <a href="{% url 'delete_report' report.id %}"
-               class="btn btn-danger">
-
-                🗑 Delete Report
-
+            <a href="{% url 'edit_report' report.id %}"
+               class="btn btn-warning">
+                ✏️ Edit Report
             </a>
 
         {% endif %}
@@ -125,23 +121,12 @@ Weekly Report Details
 
         <a href="{% url 'approve_report' report.id %}"
            class="btn btn-success">
-
             ✅ Approve
-
         </a>
 
         <a href="{% url 'return_report' report.id %}"
-           class="btn btn-warning">
-
-            ↩ Return
-
-        </a>
-
-        <a href="{% url 'delete_report' report.id %}"
            class="btn btn-danger">
-
-            🗑 Delete
-
+            ↩ Return
         </a>
 
     {% endif %}

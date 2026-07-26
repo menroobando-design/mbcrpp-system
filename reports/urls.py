@@ -62,6 +62,12 @@ urlpatterns = [
     ),
 
     path(
+        "<int:report_id>/edit/",
+        views.edit_report,
+        name="edit_report"
+    ),
+
+    path(
         "<int:report_id>/pdf/",
         views.download_pdf,
         name="download_pdf",

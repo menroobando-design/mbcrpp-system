@@ -309,6 +309,64 @@ def report_detail(request, report_id):
         }
     )
 
+
+@login_required
+def edit_report(request, report_id):
+
+    report = get_object_or_404(
+        WeeklyReport,
+        pk=report_id
+    )
+
+    profile = get_object_or_404(
+        UserProfile,
+        user=request.user
+    )
+
+    # Only the owner can edit
+    if report.barangay != profile.barangay:
+        return redirect("report_list")
+
+    # Only Draft and Returned reports are editable
+    if report.status not in ["Draft", "Returned"]:
+        return redirect("report_detail", report.id)
+
+    if request.method == "POST":
+
+        form = WeeklyReportForm(
+            request.POST,
+            instance=report
+        )
+
+        if form.is_valid():
+
+            report = form.save(commit=False)
+
+            # If the report was returned,
+            # automatically resubmit it.
+            if report.status == "Returned":
+                report.status = "Submitted"
+
+            report.save()
+
+            return redirect("report_detail", report.id)
+
+    else:
+
+        form = WeeklyReportForm(
+            instance=report
+        )
+
+    return render(
+        request,
+        "reports/report_form.html",
+        {
+            "form": form,
+            "edit_mode": True,
+            "report": report,
+        }
+    )
+
 from django.http import FileResponse
 
 
