@@ -359,6 +359,7 @@ def edit_report(request, report_id):
 
         form = WeeklyReportForm(
             request.POST,
+            request.FILES,
             instance=report
         )
 
@@ -373,6 +374,25 @@ def edit_report(request, report_id):
 
             report.save()
 
+            photo_fields = {
+                "before_photos": "Before",
+                "during_photos": "During",
+                "after_photos": "After",
+                "waste_photos": "Collected Waste",
+                "group_photos": "Group Photo",
+                "attendance_photos": "Attendance",
+            }
+
+            for field_name, category in photo_fields.items():
+
+                for image in request.FILES.getlist(field_name):
+
+                    ReportPhoto.objects.create(
+                        report=report,
+                        category=category,
+                        image=image,
+                    )
+
             return redirect("report_detail", report.id)
 
     else:
@@ -383,7 +403,7 @@ def edit_report(request, report_id):
 
     return render(
         request,
-        "reports/form.html",
+        "reports/create_report.html",
         {
             "form": form,
             "report": report,
