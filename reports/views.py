@@ -359,10 +359,9 @@ def edit_report(request, report_id):
 
     return render(
         request,
-        "reports/report_form.html",
+        "reports/form.html",
         {
             "form": form,
-            "edit_mode": True,
             "report": report,
         }
     )
