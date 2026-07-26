@@ -20,6 +20,7 @@ from users.models import UserProfile
 from django.http import FileResponse
 from .docx_generator import generate_report_docx
 from django.contrib import messages
+from django.utils import timezone
 
 
 @login_required
@@ -175,6 +176,10 @@ def submit_report(request, report_id):
 
     report.status = "Submitted"
 
+    report.submitted_at = timezone.now()
+
+    report.submitted_by = request.user
+
     report.save()
 
     return redirect("report_list")
@@ -215,6 +220,10 @@ def approve_report(request, report_id):
 
     report.status = "Approved"
 
+    report.approved_at = timezone.now()
+
+    report.reviewed_by = request.user
+
     report.save()
 
     return redirect("report_list")
@@ -234,6 +243,10 @@ def return_report(request, report_id):
     if request.method == "POST":
 
         report.status = "Returned"
+
+        report.returned_at = timezone.now()
+
+        report.reviewed_by = request.user
 
         report.menro_remarks = request.POST.get(
             "menro_remarks",
