@@ -7,7 +7,46 @@ from .models import (
 )
 
 
+# ==========================================
+# Multiple File Upload Field
+# ==========================================
+
+class MultipleFileField(forms.FileField):
+
+    widget = MultipleFileInput
+
+    def clean(self, data, initial=None):
+
+        if not data:
+            return []
+
+        if isinstance(data, (list, tuple)):
+            return data
+
+        return [data]
+
+
+# ==========================================
+# Weekly Report Form
+# ==========================================
+
 class WeeklyReportForm(forms.ModelForm):
+
+    # -----------------------------
+    # Photo Upload Fields
+    # -----------------------------
+
+    before_photos = MultipleFileField(required=False)
+
+    during_photos = MultipleFileField(required=False)
+
+    after_photos = MultipleFileField(required=False)
+
+    waste_photos = MultipleFileField(required=False)
+
+    group_photos = MultipleFileField(required=False)
+
+    attendance_photos = MultipleFileField(required=False)
 
     class Meta:
 
@@ -36,34 +75,23 @@ class WeeklyReportForm(forms.ModelForm):
         widgets = {
 
             "activity_date": forms.DateInput(
-                attrs={"type":"date"}
+                attrs={"type": "date"}
             ),
 
             "disposal_method": forms.Textarea(
-                attrs={"rows":3}
+                attrs={"rows": 3}
             ),
 
             "remarks": forms.Textarea(
-                attrs={"rows":3}
+                attrs={"rows": 3}
             ),
 
         }
 
 
-class MultipleFileField(forms.FileField):
-
-    widget = MultipleFileInput
-
-    def clean(self, data, initial=None):
-
-        if not data:
-            return []
-
-        if isinstance(data, (list, tuple)):
-            return data
-
-        return [data]
-
+# ==========================================
+# Old Upload Form (temporary)
+# ==========================================
 
 class ReportPhotoForm(forms.Form):
 

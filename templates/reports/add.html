@@ -5,33 +5,135 @@
 <div class="card shadow">
 
     <div class="card-header bg-success text-white">
-
         <h4 class="mb-0">
-
             New Weekly Report
-
         </h4>
-
     </div>
 
     <div class="card-body">
 
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
 
             {% csrf_token %}
 
-            {{ form.as_p }}
+            <p>
+    {{ form.week_covered.label_tag }}
+    {{ form.week_covered }}
+</p>
 
-            <button
-                class="btn btn-success">
+<p>
+    {{ form.activity_date.label_tag }}
+    {{ form.activity_date }}
+</p>
 
-                Save Draft
+<p>
+    {{ form.activity_location.label_tag }}
+    {{ form.activity_location }}
+</p>
+
+<p>
+    {{ form.length_covered.label_tag }}
+    {{ form.length_covered }}
+</p>
+
+<p>
+    {{ form.participants.label_tag }}
+    {{ form.participants }}
+</p>
+
+<p>
+    {{ form.biodegradable.label_tag }}
+    {{ form.biodegradable }}
+</p>
+
+<p>
+    {{ form.recyclable.label_tag }}
+    {{ form.recyclable }}
+</p>
+
+<p>
+    {{ form.residual.label_tag }}
+    {{ form.residual }}
+</p>
+
+<p>
+    {{ form.disposal_method.label_tag }}
+    {{ form.disposal_method }}
+</p>
+
+<p>
+    {{ form.remarks.label_tag }}
+    {{ form.remarks }}
+</p>
+
+            <hr>
+
+            <h5 class="mb-3">
+                📸 Upload Activity Photos
+            </h5>
+
+            <div class="card mb-3">
+    <div class="card-header bg-light">
+        <strong>Before Photos</strong>
+    </div>
+    <div class="card-body">
+        {{ form.before_photos }}
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header bg-light">
+        <strong>During Photos</strong>
+    </div>
+    <div class="card-body">
+        {{ form.during_photos }}
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header bg-light">
+        <strong>After Photos</strong>
+    </div>
+    <div class="card-body">
+        {{ form.after_photos }}
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header bg-light">
+        <strong>Collected Waste</strong>
+    </div>
+    <div class="card-body">
+        {{ form.waste_photos }}
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header bg-light">
+        <strong>Group Photo</strong>
+    </div>
+    <div class="card-body">
+        {{ form.group_photos }}
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header bg-light">
+        <strong>Attendance</strong>
+    </div>
+    <div class="card-body">
+        {{ form.attendance_photos }}
+    </div>
+</div>
+
+            <button class="btn btn-success">
+
+                💾 Save Draft
 
             </button>
 
-            <a
-                href="/reports/"
-                class="btn btn-secondary">
+            <a href="{% url 'report_list' %}"
+               class="btn btn-secondary">
 
                 Cancel
 

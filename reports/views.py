@@ -63,22 +63,45 @@ def add_report(request):
 
     if request.method == "POST":
 
-        form = WeeklyReportForm(request.POST)
+        form = WeeklyReportForm(
+            request.POST,
+            request.FILES
+        )
 
         if form.is_valid():
 
             report = form.save(commit=False)
 
             report.barangay = profile.barangay
-
             report.status = "Draft"
-
             report.save()
 
-            return redirect(
-                "upload_photos",
-                report.id
+            # Save uploaded photos
+            photo_fields = {
+                "Before": "before_photos",
+                "During": "during_photos",
+                "After": "after_photos",
+                "Collected Waste": "waste_photos",
+                "Group Photo": "group_photos",
+                "Attendance": "attendance_photos",
+            }
+
+            for category, field_name in photo_fields.items():
+
+                for image in request.FILES.getlist(field_name):
+
+                    ReportPhoto.objects.create(
+                        report=report,
+                        category=category,
+                        image=image,
+                    )
+
+            messages.success(
+                request,
+                "Report saved successfully."
             )
+
+            return redirect("report_list")
 
     else:
 
@@ -88,8 +111,9 @@ def add_report(request):
         request,
         "reports/add.html",
         {
-            "form": form
-        }
+            "form": form,
+            "photo_categories": ReportPhoto.CATEGORY_CHOICES,
+        },
     )
 
 
