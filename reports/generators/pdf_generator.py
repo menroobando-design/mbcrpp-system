@@ -18,6 +18,10 @@ from reportlab.lib.units import inch, cm
 PHOTO_WIDTH = 15 * cm
 PHOTO_HEIGHT = 8 * cm
 
+TOP_MARGIN = 1 * inch
+LEFT_MARGIN = 1 * inch
+RIGHT_MARGIN = 1 * inch
+BOTTOM_MARGIN = 1 * inch
 
 def draw_photo_page(c, title, photos):
 
@@ -35,18 +39,25 @@ def draw_photo_page(c, title, photos):
 
         c.setFont("Helvetica-Bold", 16)
 
+        # ---------------------------------
+        # 1-inch top margin
+        # ---------------------------------
+
+        TOP_MARGIN = 1 * inch
+
         c.drawCentredString(
             width / 2,
-            height - 1.5 * cm,
+            height - TOP_MARGIN,
             title.upper()
         )
 
-        # Two photo slots per page
+        # Leave some space below the title
 
         positions = [
 
-            height - 9 * cm,
-            height - 19 * cm,
+            height - (TOP_MARGIN + 3 * cm),
+
+            height - (TOP_MARGIN + 13 * cm),
 
         ]
 
