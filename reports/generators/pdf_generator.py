@@ -74,54 +74,50 @@ def draw_photo_page(c, title, photos):
 
                 img_width, img_height = img.getSize()
 
-                # Maximum box size
+                # ----------------------------------------
+                # Detect image orientation automatically
+                # ----------------------------------------
 
-                max_width = 15 * cm
-                max_height = 8 * cm
-
-                scale = min(
-                    max_width / img_width,
-                    max_height / img_height
-                )
+                if img_width >= img_height:
+                    # Landscape photo
+                    scale = PHOTO_WIDTH / img_width
+                else:
+                    # Portrait photo
+                    scale = PHOTO_HEIGHT / img_height
 
                 draw_width = img_width * scale
                 draw_height = img_height * scale
 
-                x = (width - draw_width) / 2
+                # Never exceed the maximum frame
+                if draw_width > PHOTO_WIDTH:
+                    scale = PHOTO_WIDTH / draw_width
+                    draw_width *= scale
+                    draw_height *= scale
 
-                # -----------------------------
-                # Border
-                # -----------------------------
+                if draw_height > PHOTO_HEIGHT:
+                    scale = PHOTO_HEIGHT / draw_height
+                    draw_width *= scale
+                    draw_height *= scale
 
-                c.setStrokeColorRGB(0.75, 0.75, 0.75)
+                # Center inside the frame
+                frame_x = (width - PHOTO_WIDTH) / 2
+                frame_y = y
 
-                c.rect(
-                    x - 4,
-                    y - 4,
-                    draw_width + 8,
-                    draw_height + 8
-                )
+                x = frame_x + (PHOTO_WIDTH - draw_width) / 2
+                image_y = frame_y + (PHOTO_HEIGHT - draw_height) / 2
 
-                # -----------------------------
-                # Draw Image
-                # -----------------------------
+                # Draw a light border around the frame
+                c.setLineWidth(0.5)
+                c.rect(frame_x, frame_y, PHOTO_WIDTH, PHOTO_HEIGHT)
 
                 c.drawImage(
-
                     img,
-
                     x,
-
-                    y,
-
+                    image_y,
                     width=draw_width,
-
                     height=draw_height,
-
                     preserveAspectRatio=True,
-
                     mask="auto",
-
                 )
 
                 # -----------------------------
