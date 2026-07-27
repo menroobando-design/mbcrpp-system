@@ -1,9 +1,21 @@
 import os
 
+from PIL import Image
+
 from reportlab.lib.units import cm
 
 
-PHOTO_SIZE = 7 * cm
+# ==================================================
+# SETTINGS
+# ==================================================
+
+PHOTO_BOX_WIDTH = 8 * cm
+PHOTO_BOX_HEIGHT = 10 * cm
+
+LEFT_MARGIN = 2 * cm
+TOP_MARGIN = 4 * cm
+COLUMN_GAP = 1 * cm
+ROW_GAP = 2 * cm
 
 
 def draw_photo_pages(c, report):
@@ -11,15 +23,10 @@ def draw_photo_pages(c, report):
     categories = [
 
         "Before",
-
         "During",
-
         "After",
-
         "Collected Waste",
-
         "Group Photo",
-
         "Attendance",
 
     ]
@@ -43,59 +50,71 @@ def draw_photo_pages(c, report):
             category.upper()
         )
 
-        x = 2 * cm
-        y = height - 4 * cm
+        x = LEFT_MARGIN
+        y = height - TOP_MARGIN
 
-        count = 0
+        column = 0
 
         for photo in photos:
 
             if os.path.exists(photo.image.path):
 
-                c.drawImage(
+                img = Image.open(photo.image.path)
 
-                    photo.image.path,
+                img_w, img_h = img.size
 
-                    x,
-
-                    y - PHOTO_SIZE,
-
-                    width=PHOTO_SIZE,
-
-                    height=PHOTO_SIZE,
-
-                    preserveAspectRatio=True,
-
-                    mask="auto",
-
+                scale = min(
+                    PHOTO_BOX_WIDTH / img_w,
+                    PHOTO_BOX_HEIGHT / img_h
                 )
 
-            c.setFont("Helvetica", 10)
+                draw_w = img_w * scale
+                draw_h = img_h * scale
+
+                draw_x = x + (PHOTO_BOX_WIDTH - draw_w) / 2
+                draw_y = y - draw_h
+
+                c.drawImage(
+                    photo.image.path,
+                    draw_x,
+                    draw_y,
+                    width=draw_w,
+                    height=draw_h,
+                    preserveAspectRatio=True,
+                    mask="auto",
+                )
+
+            c.setFont("Helvetica", 9)
 
             c.drawCentredString(
-
-                x + PHOTO_SIZE / 2,
-
-                y - PHOTO_SIZE - .4 * cm,
-
+                x + PHOTO_BOX_WIDTH / 2,
+                y - PHOTO_BOX_HEIGHT - .4 * cm,
                 photo.caption or ""
-
             )
 
-            count += 1
+            if column == 0:
 
-            if count % 2 == 1:
-
-                x = 11 * cm
+                x += PHOTO_BOX_WIDTH + COLUMN_GAP
+                column = 1
 
             else:
 
-                x = 2 * cm
+                x = LEFT_MARGIN
+                column = 0
 
-                y -= 9 * cm
+                y -= PHOTO_BOX_HEIGHT + ROW_GAP
 
-                if y < 6 * cm:
+                if y < 7 * cm:
 
                     c.showPage()
 
-                    y = height - 4 * cm
+                    c.setFont("Helvetica-Bold", 18)
+
+                    c.drawCentredString(
+                        width / 2,
+                        height - 2 * cm,
+                        category.upper()
+                    )
+
+                    x = LEFT_MARGIN
+                    y = height - TOP_MARGIN

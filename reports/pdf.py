@@ -3,7 +3,7 @@ from io import BytesIO
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.lib.units import inch
+from reportlab.lib.units import inch, cm
 from reportlab.platypus import (
     SimpleDocTemplate,
     Paragraph,
@@ -12,6 +12,9 @@ from reportlab.platypus import (
     TableStyle,
     Image,
 )
+
+PHOTO_WIDTH = 10 * cm
+PHOTO_HEIGHT = 16 * cm
 
 def generate_report_pdf(report):
 

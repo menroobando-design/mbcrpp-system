@@ -8,22 +8,18 @@ from .header import draw_header
 from .tables import draw_information_table
 from .signatures import draw_signatures
 from reportlab.lib.utils import ImageReader
+from urllib.request import urlopen
 from reportlab.lib.units import inch, cm
 
 # ====================================
 # PHOTO SETTINGS
 # ====================================
 
-PHOTO_WIDTH = 10 * cm
-PHOTO_HEIGHT = 16 * cm
+PHOTO_WIDTH = 15 * cm
+PHOTO_HEIGHT = 8 * cm
 
 
 def draw_photo_page(c, title, photos):
-    """
-    Draw one category page.
-    Maximum of 2 photos per page.
-    Images fit inside a 10cm × 16cm box while preserving aspect ratio.
-    """
 
     width, height = A4
 
@@ -33,25 +29,24 @@ def draw_photo_page(c, title, photos):
 
         c.showPage()
 
-        # -------------------------
-        # Title
-        # -------------------------
+        # ---------------------------------
+        # Page Title
+        # ---------------------------------
 
-        c.setFont("Helvetica-Bold", 13)
+        c.setFont("Helvetica-Bold", 16)
 
         c.drawCentredString(
             width / 2,
-            height - 45,
+            height - 1.5 * cm,
             title.upper()
         )
 
-        # Top image position
+        # Two photo slots per page
 
         positions = [
 
-            height - 250,
-
-            height - 520,
+            height - 9 * cm,
+            height - 19 * cm,
 
         ]
 
@@ -64,25 +59,41 @@ def draw_photo_page(c, title, photos):
 
             try:
 
-                from urllib.request import urlopen
-
                 img = ImageReader(urlopen(photo.image.url))
-
-                # -------------------------
-                # Get original image size
-                # -------------------------
 
                 img_width, img_height = img.getSize()
 
+                # Maximum box size
+
+                max_width = 15 * cm
+                max_height = 8 * cm
+
                 scale = min(
-                    PHOTO_WIDTH / img_width,
-                    PHOTO_HEIGHT / img_height
+                    max_width / img_width,
+                    max_height / img_height
                 )
 
                 draw_width = img_width * scale
                 draw_height = img_height * scale
 
                 x = (width - draw_width) / 2
+
+                # -----------------------------
+                # Border
+                # -----------------------------
+
+                c.setStrokeColorRGB(0.75, 0.75, 0.75)
+
+                c.rect(
+                    x - 4,
+                    y - 4,
+                    draw_width + 8,
+                    draw_height + 8
+                )
+
+                # -----------------------------
+                # Draw Image
+                # -----------------------------
 
                 c.drawImage(
 
@@ -98,11 +109,39 @@ def draw_photo_page(c, title, photos):
 
                     preserveAspectRatio=True,
 
+                    mask="auto",
+
+                )
+
+                # -----------------------------
+                # Caption
+                # -----------------------------
+
+                c.setFont("Helvetica", 10)
+
+                c.drawCentredString(
+
+                    width / 2,
+
+                    y - .6 * cm,
+
+                    photo.caption if photo.caption else ""
+
                 )
 
             except Exception as e:
+
                 print("IMAGE ERROR:", e)
-                c.drawString(120, y, "Unable to load image.")
+
+                c.drawCentredString(
+
+                    width / 2,
+
+                    y,
+
+                    "Unable to load image."
+
+                )
 
             index += 1
 

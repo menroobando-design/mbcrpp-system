@@ -1,7 +1,6 @@
 from reportlab.lib import colors
 from reportlab.lib.units import cm
-from reportlab.platypus import Table, TableStyle
-from reportlab.platypus import Paragraph
+from reportlab.platypus import Table, TableStyle, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 
 
@@ -36,6 +35,17 @@ def draw_information_table(c, report):
     )
 
     # -------------------------------------------------
+    # Styles
+    # -------------------------------------------------
+
+    styles = getSampleStyleSheet()
+
+    cell_style = styles["BodyText"]
+    cell_style.fontName = "Helvetica"
+    cell_style.fontSize = 8
+    cell_style.leading = 10
+
+    # -------------------------------------------------
     # MAIN TABLE
     # -------------------------------------------------
 
@@ -46,15 +56,34 @@ def draw_information_table(c, report):
             "Barangay",
             "Water Body/\nWaterway Covered",
             "Length\nCovered",
-            "Volume of Waste\nCollected"
+            "Volume of Waste\nCollected",
         ],
 
         [
-            report.activity_date.strftime("%B %d, %Y"),
-            report.barangay.name,
-            report.activity_location,
-            f"{report.length_covered} meters",
-            f"{report.total_waste} kilograms"
+            Paragraph(
+                report.activity_date.strftime("%B %d, %Y"),
+                cell_style,
+            ),
+
+            Paragraph(
+                report.barangay.name,
+                cell_style,
+            ),
+
+            Paragraph(
+                report.activity_location or "",
+                cell_style,
+            ),
+
+            Paragraph(
+                f"{report.length_covered} meters",
+                cell_style,
+            ),
+
+            Paragraph(
+                f"{report.total_waste} kilograms",
+                cell_style,
+            ),
         ]
 
     ]
@@ -64,11 +93,11 @@ def draw_information_table(c, report):
         data,
 
         colWidths=[
-            4 * cm,
-            3 * cm,
-            3.8 * cm,
+            3.2 * cm,
             2.8 * cm,
-            3.6 * cm
+            6.2 * cm,
+            2.5 * cm,
+            3.3 * cm,
         ]
 
     )
@@ -91,9 +120,11 @@ def draw_information_table(c, report):
 
             ("FONTNAME", (0, 1), (-1, -1), "Helvetica"),
 
+            ("TOPPADDING", (0, 0), (-1, 0), 8),
             ("BOTTOMPADDING", (0, 0), (-1, 0), 8),
 
-            ("TOPPADDING", (0, 0), (-1, 0), 8),
+            ("TOPPADDING", (0, 1), (-1, -1), 6),
+            ("BOTTOMPADDING", (0, 1), (-1, -1), 6),
 
         ])
 
@@ -111,23 +142,23 @@ def draw_information_table(c, report):
     # REMARKS TABLE
     # -------------------------------------------------
 
-    styles = getSampleStyleSheet()
-
-    style = styles["BodyText"]
-    style.fontName = "Helvetica"
-    style.fontSize = 9
-    style.leading = 11
-
     remarks = [
 
         [
             "Details on Disposal",
-            "Other Remarks"
+            "Other Remarks",
         ],
 
         [
-        Paragraph(report.disposal_method or "", style),
-        Paragraph(report.remarks or "", style),
+            Paragraph(
+                report.disposal_method or "",
+                cell_style,
+            ),
+
+            Paragraph(
+                report.remarks or "",
+                cell_style,
+            ),
         ]
 
     ]
@@ -136,7 +167,10 @@ def draw_information_table(c, report):
 
         remarks,
 
-        colWidths=[9 * cm, 9 * cm]
+        colWidths=[
+            9 * cm,
+            9 * cm,
+        ]
 
     )
 
@@ -152,9 +186,13 @@ def draw_information_table(c, report):
 
             ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
 
+            ("TOPPADDING", (0, 0), (-1, 0), 5),
+
             ("BOTTOMPADDING", (0, 0), (-1, 0), 5),
 
-            ("TOPPADDING", (0, 0), (-1, 0), 5),
+            ("TOPPADDING", (0, 1), (-1, -1), 6),
+
+            ("BOTTOMPADDING", (0, 1), (-1, -1), 6),
 
         ])
 
