@@ -15,13 +15,15 @@ from reportlab.lib.units import inch, cm
 # PHOTO SETTINGS
 # ====================================
 
-PHOTO_WIDTH = 15 * cm
-PHOTO_HEIGHT = 8 * cm
+PHOTO_WIDTH = 16 * cm
+PHOTO_HEIGHT = 9 * cm
 
 TOP_MARGIN = 1 * inch
+BOTTOM_MARGIN = 1 * inch
 LEFT_MARGIN = 1 * inch
 RIGHT_MARGIN = 1 * inch
-BOTTOM_MARGIN = 1 * inch
+
+PHOTO_GAP = 1 * cm
 
 def draw_photo_page(c, title, photos):
 
@@ -47,17 +49,27 @@ def draw_photo_page(c, title, photos):
 
         c.drawCentredString(
             width / 2,
-            height - TOP_MARGIN,
+            height - 0.6 * inch,
             title.upper()
         )
 
         # Leave some space below the title
 
+        # ---------------------------------
+        # Compute printable area
+        # ---------------------------------
+
+        usable_height = height - TOP_MARGIN - BOTTOM_MARGIN
+
+        first_photo_y = height - TOP_MARGIN - PHOTO_HEIGHT
+
+        second_photo_y = first_photo_y - PHOTO_HEIGHT - PHOTO_GAP
+
         positions = [
 
-            height - (TOP_MARGIN + 3 * cm),
+            first_photo_y,
 
-            height - (TOP_MARGIN + 13 * cm),
+            second_photo_y,
 
         ]
 
@@ -100,7 +112,9 @@ def draw_photo_page(c, title, photos):
                     draw_height *= scale
 
                 # Center inside the frame
-                frame_x = (width - PHOTO_WIDTH) / 2
+                frame_x = LEFT_MARGIN + (
+                    (width - LEFT_MARGIN - RIGHT_MARGIN - PHOTO_WIDTH) / 2
+                )
                 frame_y = y
 
                 x = frame_x + (PHOTO_WIDTH - draw_width) / 2
@@ -130,7 +144,7 @@ def draw_photo_page(c, title, photos):
 
                     width / 2,
 
-                    y - .6 * cm,
+                    y - 0.6 * inch,
 
                     photo.caption if photo.caption else ""
 
