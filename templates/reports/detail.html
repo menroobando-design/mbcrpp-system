@@ -131,6 +131,17 @@ Weekly Report Details
 
     {% endif %}
 
+    {% if user.is_staff %}
+
+        <a href="{% url 'delete_report' report.id %}"
+           class="btn btn-danger">
+
+            🗑 Delete
+
+        </a>
+
+    {% endif %}
+
 </div>
 
 
