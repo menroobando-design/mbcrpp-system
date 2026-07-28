@@ -38,6 +38,11 @@ urlpatterns = [
         include("reports.urls")
     ),
 
+    path(
+        "delete/<int:report_id>/",
+        views.delete_report,
+        name="delete_report",
+    ),
    
 ]
 

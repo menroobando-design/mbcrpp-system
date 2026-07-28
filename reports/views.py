@@ -21,6 +21,7 @@ from django.http import FileResponse
 from .docx_generator import generate_report_docx
 from django.contrib import messages
 from django.utils import timezone
+import cloudinary.uploader
 
 
 @login_required
@@ -487,27 +488,71 @@ def delete_report(request, report_id):
         pk=report_id
     )
 
-    # Barangay users
-    if not request.user.is_staff:
+    profile = get_object_or_404(
+        UserProfile,
+        user=request.user
+    )
 
-        profile = get_object_or_404(
-            UserProfile,
-            user=request.user
-        )
+    # ----------------------------------------
+    # MENRO Admin / Staff
+    # Can delete ANY report
+    # ----------------------------------------
 
-        # They can only delete their own reports
+    if profile.role in ["MENRO Admin", "MENRO Staff"]:
+        pass
+
+    # ----------------------------------------
+    # Barangay Users
+    # ----------------------------------------
+
+    else:
+
+        # Can only delete their own reports
         if report.barangay != profile.barangay:
             return redirect("report_list")
 
-        # Only Draft or Returned reports
+        # Can only delete Draft or Returned reports
         if report.status not in ["Draft", "Returned"]:
+
             messages.error(
                 request,
                 "This report can no longer be deleted."
             )
-            return redirect("report_detail", report.id)
+
+            return redirect(
+                "report_detail",
+                report.id
+            )
+
+    # ----------------------------------------
+    # Delete Report
+    # ----------------------------------------
 
     if request.method == "POST":
+
+        # ---------------------------------------
+        # Delete all uploaded images first
+        # ---------------------------------------
+
+        for photo in report.photos.all():
+
+            try:
+
+                if photo.image:
+
+                    cloudinary.uploader.destroy(
+                        photo.image.public_id
+                    )
+
+            except Exception as e:
+
+                print("Cloudinary delete error:", e)
+
+        # ---------------------------------------
+        # Delete database records
+        # ---------------------------------------
+
+        report.photos.all().delete()
 
         report.delete()
 
@@ -516,6 +561,11 @@ def delete_report(request, report_id):
             "Report deleted successfully."
         )
 
+        # MENRO goes back to Approved Reports
+        if profile.role in ["MENRO Admin", "MENRO Staff"]:
+            return redirect("approved_reports")
+
+        # Barangay users go back to their reports
         return redirect("report_list")
 
     return render(
@@ -745,4 +795,6 @@ def dcf_step4(request, report_id):
         }
 
     )
+
+
 
