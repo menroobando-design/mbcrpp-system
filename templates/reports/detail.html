@@ -131,14 +131,12 @@ Weekly Report Details
 
     {% endif %}
 
-    {% if user.is_staff %}
+    {% if profile.role == "MENRO Admin" or profile.role == "MENRO Staff" %}
 
-        <a href="{% url 'delete_report' report.id %}"
-           class="btn btn-danger">
-
-            🗑 Delete
-
-        </a>
+    <a href="{% url 'delete_report' report.id %}"
+        class="btn btn-danger">
+         🗑 Delete
+    </a>
 
     {% endif %}
 

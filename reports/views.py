@@ -326,11 +326,14 @@ def report_detail(request, report_id):
         if report.barangay != profile.barangay:
             return redirect("report_list")
 
+    profile = UserProfile.objects.get(user=request.user)
+
     return render(
         request,
         "reports/detail.html",
         {
-            "report": report
+            "report": report,
+            "profile": profile,
         }
     )
 
