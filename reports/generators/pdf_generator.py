@@ -3,27 +3,34 @@ import tempfile
 
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
+from reportlab.lib.utils import ImageReader
+from reportlab.lib.units import inch, cm
+
+from urllib.request import urlopen
 
 from .header import draw_header
 from .tables import draw_information_table
 from .signatures import draw_signatures
-from reportlab.lib.utils import ImageReader
-from urllib.request import urlopen
-from reportlab.lib.units import inch, cm
 
-# ====================================
-# PHOTO SETTINGS
-# ====================================
 
-PHOTO_WIDTH = 16 * cm
-PHOTO_HEIGHT = 9 * cm
+# ======================================================
+# PAGE MARGINS
+# ======================================================
 
 TOP_MARGIN = 1 * inch
 BOTTOM_MARGIN = 1 * inch
 LEFT_MARGIN = 1 * inch
 RIGHT_MARGIN = 1 * inch
 
-PHOTO_GAP = 1 * cm
+# ======================================================
+# PHOTO SETTINGS
+# ======================================================
+
+PHOTO_WIDTH = 16 * cm
+PHOTO_HEIGHT = 9 * cm
+
+PHOTO_GAP = 1.2 * cm
+
 
 def draw_photo_page(c, title, photos):
 
@@ -35,17 +42,11 @@ def draw_photo_page(c, title, photos):
 
         c.showPage()
 
-        # ---------------------------------
+        # ------------------------------------
         # Page Title
-        # ---------------------------------
+        # ------------------------------------
 
         c.setFont("Helvetica-Bold", 16)
-
-        # ---------------------------------
-        # 1-inch top margin
-        # ---------------------------------
-
-        TOP_MARGIN = 1 * inch
 
         c.drawCentredString(
             width / 2,
@@ -53,27 +54,25 @@ def draw_photo_page(c, title, photos):
             title.upper()
         )
 
-        # Leave some space below the title
-
-        # ---------------------------------
-        # Compute printable area
-        # ---------------------------------
-
-        usable_height = height - TOP_MARGIN - BOTTOM_MARGIN
+        # ------------------------------------
+        # Photo Positions
+        # ------------------------------------
 
         first_photo_y = height - TOP_MARGIN - PHOTO_HEIGHT
 
-        second_photo_y = first_photo_y - PHOTO_HEIGHT - PHOTO_GAP
+        second_photo_y = (
+            first_photo_y
+            - PHOTO_HEIGHT
+            - PHOTO_GAP
+            - 0.8 * cm
+        )
 
         positions = [
-
             first_photo_y,
-
             second_photo_y,
-
         ]
 
-        for y in positions:
+        for frame_y in positions:
 
             if index >= len(photos):
                 break
@@ -86,47 +85,56 @@ def draw_photo_page(c, title, photos):
 
                 img_width, img_height = img.getSize()
 
-                # ----------------------------------------
-                # Detect image orientation automatically
-                # ----------------------------------------
+                # ------------------------------------
+                # Auto detect orientation
+                # ------------------------------------
 
                 if img_width >= img_height:
-                    # Landscape photo
                     scale = PHOTO_WIDTH / img_width
                 else:
-                    # Portrait photo
                     scale = PHOTO_HEIGHT / img_height
 
                 draw_width = img_width * scale
                 draw_height = img_height * scale
 
-                # Never exceed the maximum frame
+                # Never exceed frame
+
                 if draw_width > PHOTO_WIDTH:
+
                     scale = PHOTO_WIDTH / draw_width
+
                     draw_width *= scale
                     draw_height *= scale
 
                 if draw_height > PHOTO_HEIGHT:
+
                     scale = PHOTO_HEIGHT / draw_height
+
                     draw_width *= scale
                     draw_height *= scale
 
-                # Center inside the frame
-                frame_x = LEFT_MARGIN + (
-                    (width - LEFT_MARGIN - RIGHT_MARGIN - PHOTO_WIDTH) / 2
+                # ------------------------------------
+                # Center image
+                # ------------------------------------
+
+                frame_x = (width - PHOTO_WIDTH) / 2
+
+                image_x = frame_x + (
+                    (PHOTO_WIDTH - draw_width) / 2
                 )
-                frame_y = y
 
-                x = frame_x + (PHOTO_WIDTH - draw_width) / 2
-                image_y = frame_y + (PHOTO_HEIGHT - draw_height) / 2
+                image_y = frame_y + (
+                    (PHOTO_HEIGHT - draw_height) / 2
+                )
 
-                # Draw a light border around the frame
-                c.setLineWidth(0.5)
-                c.rect(frame_x, frame_y, PHOTO_WIDTH, PHOTO_HEIGHT)
+                # ------------------------------------
+                # Draw Image
+                # (NO BORDER / FRAME)
+                # ------------------------------------
 
                 c.drawImage(
                     img,
-                    x,
+                    image_x,
                     image_y,
                     width=draw_width,
                     height=draw_height,
@@ -134,34 +142,28 @@ def draw_photo_page(c, title, photos):
                     mask="auto",
                 )
 
-                # -----------------------------
+                # ------------------------------------
                 # Caption
-                # -----------------------------
+                # ------------------------------------
 
-                c.setFont("Helvetica", 10)
+                if photo.caption:
 
-                c.drawCentredString(
+                    c.setFont("Helvetica", 10)
 
-                    width / 2,
-
-                    y - 0.6 * inch,
-
-                    photo.caption if photo.caption else ""
-
-                )
+                    c.drawCentredString(
+                        width / 2,
+                        frame_y - 0.45 * cm,
+                        photo.caption
+                    )
 
             except Exception as e:
 
                 print("IMAGE ERROR:", e)
 
                 c.drawCentredString(
-
                     width / 2,
-
-                    y,
-
+                    frame_y,
                     "Unable to load image."
-
                 )
 
             index += 1
@@ -179,15 +181,19 @@ def generate_report_pdf(report):
         pagesize=A4
     )
 
-    # ----------------------------------
-    # PAGE 1
-    # ----------------------------------
+    # =====================================
+    # FIRST PAGE
+    # =====================================
 
     draw_header(c, report)
 
     draw_information_table(c, report)
 
     draw_signatures(c, report)
+
+    # =====================================
+    # PHOTO PAGES
+    # =====================================
 
     photo_categories = [
 
@@ -197,9 +203,9 @@ def generate_report_pdf(report):
 
         ("After", report.photos.filter(category="After")),
 
-        ("Group Photo", report.photos.filter(category="Group Photo")),
+        ("Collected Waste", report.photos.filter(category="Collected Waste")),
 
-        ("Collected Wastes", report.photos.filter(category="Collected Waste")),
+        ("Group Photo", report.photos.filter(category="Group Photo")),
 
         ("Attendance", report.photos.filter(category="Attendance")),
 
