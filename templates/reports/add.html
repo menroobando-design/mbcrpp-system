@@ -36,24 +36,31 @@
     {{ form.length_covered }}
 </p>
 
+<h5 class="mt-4">
+    Participants
+</h5>
+
+<p>
+    {{ form.barangay_officials.label_tag }}
+    {{ form.barangay_officials }}
+</p>
+
+<p>
+    {{ form.sangguniang_kabataan.label_tag }}
+    {{ form.sangguniang_kabataan }}
+</p>
+
+<p>
+    {{ form.cso_members.label_tag }}
+    {{ form.cso_members }}
+</p>
+
 <p>
     {{ form.participants.label_tag }}
     {{ form.participants }}
-</p>
-
-<p>
-    {{ form.biodegradable.label_tag }}
-    {{ form.biodegradable }}
-</p>
-
-<p>
-    {{ form.recyclable.label_tag }}
-    {{ form.recyclable }}
-</p>
-
-<p>
-    {{ form.residual.label_tag }}
-    {{ form.residual }}
+    <small class="text-muted">
+        (Total participants)
+    </small>
 </p>
 
 <p>

@@ -28,32 +28,30 @@ class WeeklyReport(models.Model):
         help_text="Length covered in meters"
     )
 
-    participants = models.PositiveIntegerField()
+    # ======================================
+    # PARTICIPANTS
+    # ======================================
 
-    biodegradable = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        default=0
+    barangay_officials = models.PositiveIntegerField(
+        default=0,
+        verbose_name="No. of Barangay Officials"
     )
 
-    recyclable = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        default=0
+    sk_members = models.PositiveIntegerField(
+        default=0,
+        verbose_name="No. of Sangguniang Kabataan"
     )
 
-    residual = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        default=0
+    cso_members = models.PositiveIntegerField(
+        default=0,
+        verbose_name="No. of Civil Society Organization (CSO)"
     )
 
-    potential = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        default=0
+    participants = models.PositiveIntegerField(
+        default=0,
+        editable=False
     )
-    
+
     disposal_method = models.TextField(
         verbose_name="Method of Disposal",
         blank=True
@@ -77,21 +75,18 @@ class WeeklyReport(models.Model):
 
     def __str__(self):
         return f"{self.barangay} - {self.week_covered}"
+
     
-    @property
-    def total_waste(self):
 
-        return (
+    def save(self, *args, **kwargs):
 
-            self.biodegradable +
-
-            self.recyclable +
-
-            self.residual +
-
-            self.potential
-
+        self.participants = (
+            self.barangay_officials +
+            self.sk_members +
+            self.cso_members
         )
+
+        super().save(*args, **kwargs)
 
 
 class ReportPhoto(models.Model):
@@ -297,3 +292,6 @@ class DCFReport(models.Model):
             self.recyclable +
             self.residual             
         )   
+
+
+    

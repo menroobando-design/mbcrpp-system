@@ -32,10 +32,6 @@ class MultipleFileField(forms.FileField):
 
 class WeeklyReportForm(forms.ModelForm):
 
-    # -----------------------------
-    # Photo Upload Fields
-    # -----------------------------
-
     before_photos = MultipleFileField(required=False)
 
     during_photos = MultipleFileField(required=False)
@@ -53,29 +49,67 @@ class WeeklyReportForm(forms.ModelForm):
         model = WeeklyReport
 
         labels = {
-            "biodegradable": "Biodegradable (kg)",
-            "recyclable": "Recyclable (kg)",
-            "residual": "Residual w/ Potential (kg)",
+
+            "barangay_officials": "No. of Barangay Officials",
+
+            "sk_members": "No. of Sangguniang Kabataan",
+
+            "cso_members": "No. of Civil Society Organization (CSO)",
+
             "disposal_method": "Method of Disposal",
+
         }
 
         fields = [
+
             "week_covered",
+
             "activity_date",
+
             "activity_location",
+
             "length_covered",
-            "participants",
-            "biodegradable",
-            "recyclable",
-            "residual",
+
+            "barangay_officials",
+
+            "sk_members",
+
+            "cso_members",
+
             "disposal_method",
+
             "remarks",
+
         ]
 
         widgets = {
 
             "activity_date": forms.DateInput(
                 attrs={"type": "date"}
+            ),
+
+            "activity_location": forms.TextInput(
+                attrs={
+                    "placeholder": "Activity Location"
+                }
+            ),
+
+            "length_covered": forms.NumberInput(
+                attrs={
+                    "placeholder": "Length Covered (meters)"
+                }
+            ),
+
+            "barangay_officials": forms.NumberInput(
+                attrs={"min": 0}
+            ),
+
+            "sk_members": forms.NumberInput(
+                attrs={"min": 0}
+            ),
+
+            "cso_members": forms.NumberInput(
+                attrs={"min": 0}
             ),
 
             "disposal_method": forms.Textarea(

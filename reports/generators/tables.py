@@ -56,7 +56,7 @@ def draw_information_table(c, report):
             "Barangay",
             "Water Body/\nWaterway Covered",
             "Length\nCovered",
-            "Volume of Waste\nCollected",
+            "Participants",
         ],
 
         [
@@ -81,7 +81,12 @@ def draw_information_table(c, report):
             ),
 
             Paragraph(
-                f"{report.total_waste} kilograms",
+                f"""
+    Barangay Officials : {report.barangay_officials}<br/>
+    SK Members : {report.sk_members}<br/>
+    CSO Members : {report.cso_members}<br/>
+    Total : {report.participants}
+                """,
                 cell_style,
             ),
         ]
@@ -95,9 +100,9 @@ def draw_information_table(c, report):
         colWidths=[
             3.2 * cm,
             2.8 * cm,
-            6.2 * cm,
-            2.5 * cm,
-            3.3 * cm,
+            5.8 * cm,
+            2.3 * cm,
+            4.0 * cm,
         ]
 
     )
