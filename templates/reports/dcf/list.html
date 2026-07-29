@@ -2,43 +2,79 @@
 
 {% block content %}
 
-<div class="card shadow-lg">
+<div class="card shadow">
 
-    <div class="card-header bg-success text-white">
+    <div class="card-header bg-success text-white d-flex justify-content-between">
 
         <h3 class="mb-0">
             Manila Bayanihan Form 2.2
         </h3>
 
-        <small>
-            Barangay Data Collection Form (Solid Waste Management)
-        </small>
+        <a href="{% url 'dcf_form' %}" class="btn btn-light">
+            + New Report
+        </a>
 
     </div>
 
-    <div class="card-body text-center">
+    <div class="card-body">
 
-        <br>
+        {% if reports %}
 
-        <h4>
-            Welcome to the DCF Reporting Module
-        </h4>
+        <table class="table table-bordered table-hover">
 
-        <p class="text-muted">
+            <thead class="table-success">
 
-            This module will guide you through the official
-            Manila Bayanihan Form 2.2 one section at a time.
+                <tr>
 
-        </p>
+                    <th>Barangay</th>
+                    <th>Month</th>
+                    <th>Year</th>
+                    <th>Status</th>
+                    <th>Prepared By</th>
 
-        <br>
+                </tr>
 
-        <a href="{% url 'dcf_form' %}"
-           class="btn btn-success btn-lg">
+            </thead>
 
-           Start New DCF Report
+            <tbody>
 
-        </a>
+            {% for report in reports %}
+
+                <tr>
+
+                    <td>{{ report.barangay }}</td>
+
+                    <td>{{ report.month }}</td>
+
+                    <td>{{ report.year }}</td>
+
+                    <td>
+
+                        <span class="badge bg-secondary">
+                            {{ report.status }}
+                        </span>
+
+                    </td>
+
+                    <td>{{ report.prepared_by }}</td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+            <div class="alert alert-info">
+
+                No DCF Reports yet.
+
+            </div>
+
+        {% endif %}
 
     </div>
 
