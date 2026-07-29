@@ -141,7 +141,7 @@ class ReportPhotoForm(forms.Form):
 
 
 # =====================================================
-# DCF REPORT - STEP 1
+# DCF REPORT 
 # =====================================================
 
 class DCFReportForm(forms.ModelForm):
@@ -152,22 +152,94 @@ class DCFReportForm(forms.ModelForm):
 
         fields = [
 
+            # =========================
+            # GENERAL
+            # =========================
+
             "month",
-
             "year",
-
             "week_covered",
 
+            # =========================
+            # A. BSWMC
+            # =========================
+
+            "has_bswmc",
+            "bswmc_members",
+            "bswmc_meetings",
+            "has_eo",
+            "has_bswm_plan",
+
+            # =========================
+            # B. SWM Program
+            # =========================
+
+            "has_swm_program",
+            "swm_program_description",
+
+            # =========================
+            # C. Weekly Clean-up
+            # =========================
+
+            "cleanup_drives",
+            "cleanup_participants",
+            "cleanup_area",
+
+            # =========================
+            # D. Segregation
+            # =========================
+
+            "segregation_implemented",
+            "collection_schedule",
+            "households_served",
+            "households_compliant",
+
+            # =========================
+            # E. MRF
+            # =========================
+
+            "has_mrf",
+            "mrf_location",
+            "mrf_operational",
+            "mrf_workers",
+
+            # =========================
+            # F. Waste Diversion
+            # =========================
+
+            "biodegradable",
+            "recyclable",
+            "residual",
+
+            # =========================
+            # G. Enforcement
+            # =========================
+
+            "has_ordinance",
+            "violations_recorded",
+            "penalties_imposed",
+
+            # =========================
+            # H. IEC
+            # =========================
+
+            "iec_activities",
+            "iec_participants",
+            "best_practices",
+
+            # =========================
+            # Certification
+            # =========================
+
             "prepared_by",
+            "certified_by",
 
         ]
 
         widgets = {
 
             "month": forms.Select(
-
                 choices=[
-
                     ("January","January"),
                     ("February","February"),
                     ("March","March"),
@@ -180,44 +252,35 @@ class DCFReportForm(forms.ModelForm):
                     ("October","October"),
                     ("November","November"),
                     ("December","December"),
-
                 ]
-
             ),
 
             "year": forms.NumberInput(
-
                 attrs={
-
                     "min":2024,
-
                     "max":2100,
-
                 }
-
             ),
 
             "week_covered": forms.TextInput(
-
                 attrs={
-
-                    "placeholder":"Example: Week 1"
-
+                    "placeholder":"Week Covered"
                 }
-
             ),
 
-            "prepared_by": forms.TextInput(
-
+            "swm_program_description": forms.Textarea(
                 attrs={
-
-                    "placeholder":"Prepared by"
-
+                    "rows":3
                 }
-
             ),
 
-        }    
+            "best_practices": forms.Textarea(
+                attrs={
+                    "rows":3
+                }
+            ),
+
+        }
 
 
 # =====================================================

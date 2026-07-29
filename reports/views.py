@@ -620,43 +620,45 @@ def dcf_report_list(request):
 @login_required
 def dcf_step1(request):
 
+    if request.user.is_staff:
+        return redirect("dcf_report_list")
+
+    profile = get_object_or_404(
+        UserProfile,
+        user=request.user
+    )
+
     if request.method == "POST":
 
         form = DCFReportForm(request.POST)
 
         if form.is_valid():
 
-            profile = UserProfile.objects.get(user=request.user)
-
             report = form.save(commit=False)
 
-            report.submitted_by = request.user
-
             report.barangay = profile.barangay
+            report.submitted_by = request.user
+            report.status = "Draft"
 
             report.save()
 
-            return redirect(
-                "dcf_step2",
-                report.id
+            messages.success(
+                request,
+                "DCF Report saved successfully."
             )
+
+            return redirect("dcf_report_list")
 
     else:
 
         form = DCFReportForm()
 
     return render(
-
         request,
-
-        "reports/dcf/step1.html",
-
+        "reports/dcf_form.html",
         {
-
-            "form": form,
-
-        }
-
+            "form": form
+        },
     )
 
 @login_required
@@ -799,5 +801,49 @@ def dcf_step4(request, report_id):
 
     )
 
+
+
+@login_required
+def dcf_report(request):
+
+    profile = get_object_or_404(
+        UserProfile,
+        user=request.user
+    )
+
+    if request.method == "POST":
+
+        form = DCFReportForm(request.POST)
+
+        if form.is_valid():
+
+            report = form.save(commit=False)
+
+            report.barangay = profile.barangay
+
+            report.submitted_by = request.user
+
+            report.status = "Submitted"
+
+            report.save()
+
+            messages.success(
+                request,
+                "DCF Report submitted successfully."
+            )
+
+            return redirect("dashboard")
+
+    else:
+
+        form = DCFReportForm()
+
+    return render(
+        request,
+        "reports/dcf/form.html",
+        {
+            "form": form
+        }
+    )
 
 

@@ -1,0 +1,204 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-header bg-success text-white">
+        <h3 class="mb-0">
+            Manila Bay Clean-up, Rehabilitation and Preservation Program
+        </h3>
+        <small>Barangay Environmental Compliance Monitoring Form 2.2</small>
+    </div>
+
+    <div class="card-body">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <!-- ============================ -->
+            <!-- GENERAL INFORMATION -->
+            <!-- ============================ -->
+
+            <h4 class="mt-3 mb-3">
+                General Information
+            </h4>
+
+            {{ form.month.label_tag }}
+            {{ form.month }}
+
+            {{ form.year.label_tag }}
+            {{ form.year }}
+
+            {{ form.week_covered.label_tag }}
+            {{ form.week_covered }}
+
+            {{ form.prepared_by.label_tag }}
+            {{ form.prepared_by }}
+
+            <hr>
+
+            <!-- ============================ -->
+            <!-- A -->
+            <!-- ============================ -->
+
+            <h4>A. Barangay SWM Committee</h4>
+
+            {{ form.has_bswmc.label_tag }}
+            {{ form.has_bswmc }}
+
+            {{ form.bswmc_members.label_tag }}
+            {{ form.bswmc_members }}
+
+            {{ form.bswmc_meetings.label_tag }}
+            {{ form.bswmc_meetings }}
+
+            {{ form.has_eo.label_tag }}
+            {{ form.has_eo }}
+
+            {{ form.has_bswm_plan.label_tag }}
+            {{ form.has_bswm_plan }}
+
+            <hr>
+
+            <!-- ============================ -->
+            <!-- B -->
+            <!-- ============================ -->
+
+            <h4>B. Barangay SWM Program</h4>
+
+            {{ form.has_swm_program.label_tag }}
+            {{ form.has_swm_program }}
+
+            {{ form.swm_program_description.label_tag }}
+            {{ form.swm_program_description }}
+
+            <hr>
+
+            <!-- ============================ -->
+            <!-- C -->
+            <!-- ============================ -->
+
+            <h4>C. Weekly Clean-up Drives</h4>
+
+            {{ form.cleanup_drives.label_tag }}
+            {{ form.cleanup_drives }}
+
+            {{ form.cleanup_participants.label_tag }}
+            {{ form.cleanup_participants }}
+
+            {{ form.cleanup_area.label_tag }}
+            {{ form.cleanup_area }}
+
+            <hr>
+
+            <!-- ============================ -->
+            <!-- D -->
+            <!-- ============================ -->
+
+            <h4>D. Mandatory Segregation & Collection</h4>
+
+            {{ form.segregation_implemented.label_tag }}
+            {{ form.segregation_implemented }}
+
+            {{ form.collection_schedule.label_tag }}
+            {{ form.collection_schedule }}
+
+            {{ form.households_served.label_tag }}
+            {{ form.households_served }}
+
+            {{ form.households_compliant.label_tag }}
+            {{ form.households_compliant }}
+
+            <hr>
+
+            <!-- ============================ -->
+            <!-- E -->
+            <!-- ============================ -->
+
+            <h4>E. Materials Recovery Facility</h4>
+
+            {{ form.has_mrf.label_tag }}
+            {{ form.has_mrf }}
+
+            {{ form.mrf_location.label_tag }}
+            {{ form.mrf_location }}
+
+            {{ form.mrf_operational.label_tag }}
+            {{ form.mrf_operational }}
+
+            {{ form.mrf_workers.label_tag }}
+            {{ form.mrf_workers }}
+
+            <hr>
+
+            <!-- ============================ -->
+            <!-- F -->
+            <!-- ============================ -->
+
+            <h4>F. Waste Diversion</h4>
+
+            {{ form.biodegradable.label_tag }}
+            {{ form.biodegradable }}
+
+            {{ form.recyclable.label_tag }}
+            {{ form.recyclable }}
+
+            {{ form.residual.label_tag }}
+            {{ form.residual }}
+
+            <hr>
+
+            <!-- ============================ -->
+            <!-- G -->
+            <!-- ============================ -->
+
+            <h4>G. Enforcement</h4>
+
+            {{ form.has_ordinance.label_tag }}
+            {{ form.has_ordinance }}
+
+            {{ form.violations_recorded.label_tag }}
+            {{ form.violations_recorded }}
+
+            {{ form.penalties_imposed.label_tag }}
+            {{ form.penalties_imposed }}
+
+            <hr>
+
+            <!-- ============================ -->
+            <!-- H -->
+            <!-- ============================ -->
+
+            <h4>H. IEC Campaign & Best Practices</h4>
+
+            {{ form.iec_activities.label_tag }}
+            {{ form.iec_activities }}
+
+            {{ form.iec_participants.label_tag }}
+            {{ form.iec_participants }}
+
+            {{ form.best_practices.label_tag }}
+            {{ form.best_practices }}
+
+            <hr>
+
+            {{ form.certified_by.label_tag }}
+            {{ form.certified_by }}
+
+            <br><br>
+
+            <button class="btn btn-success">
+
+                Submit DCF Report
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
