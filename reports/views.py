@@ -841,10 +841,9 @@ def dcf_form(request):
 
     return render(
         request,
-        "reports/dcf_form.html",
+        "reports/dcf/form.html",
         {
             "form": form,
         },
     )
-
 
