@@ -804,7 +804,10 @@ def dcf_step4(request, report_id):
 
 
 @login_required
-def dcf_report(request):
+def dcf_form(request):
+
+    if request.user.is_staff:
+        return redirect("dcf_report_list")
 
     profile = get_object_or_404(
         UserProfile,
@@ -820,19 +823,17 @@ def dcf_report(request):
             report = form.save(commit=False)
 
             report.barangay = profile.barangay
-
             report.submitted_by = request.user
-
-            report.status = "Submitted"
+            report.status = "Draft"
 
             report.save()
 
             messages.success(
                 request,
-                "DCF Report submitted successfully."
+                "DCF Report saved successfully."
             )
 
-            return redirect("dashboard")
+            return redirect("dcf_report_list")
 
     else:
 
@@ -840,10 +841,10 @@ def dcf_report(request):
 
     return render(
         request,
-        "reports/dcf/form.html",
+        "reports/dcf_form.html",
         {
-            "form": form
-        }
+            "form": form,
+        },
     )
 
 

@@ -88,8 +88,8 @@ urlpatterns = [
 
     path(
         "dcf/new/",
-        views.dcf_report,
-        name="dcf_report",
+        views.dcf_form,
+        name="dcf_form",
     ),
 
 ]
