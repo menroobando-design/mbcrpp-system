@@ -7,25 +7,38 @@
     <div class="card-header bg-success text-white">
 
         <h3 class="mb-0">
-            Municipal Weekly Clean-up Report
+            Bulacan-Manila Bay Weekly Clean-up Drive Report
         </h3>
+
+        <small>
+            Automatically Generated from Approved Barangay Reports
+        </small>
 
     </div>
 
     <div class="card-body">
 
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-hover table-sm">
 
-            <thead class="table-success">
+            <thead class="table-success text-center">
 
                 <tr>
 
                     <th>Barangay</th>
-                    <th>Date</th>
-                    <th>Participants</th>
-                    <th>Waterway Covered</th>
-                    <th>Length (m)</th>
-                    <th>Disposal</th>
+
+                    <th>Conducted Clean-up</th>
+
+                    <th>No. of Participants</th>
+
+                    <th>Water Body / Waterway Covered</th>
+
+                    <th>Length Covered (Meters)</th>
+
+                    <th>Volume of Waste Collected (kg)</th>
+
+                    <th>Details on Disposal</th>
+
+                    <th>Remarks</th>
 
                 </tr>
 
@@ -39,15 +52,47 @@
 
                     <td>{{ report.barangay.name }}</td>
 
-                    <td>{{ report.activity_date }}</td>
+                    <td class="text-center">
 
-                    <td>{{ report.participants }}</td>
+                        ✔ YES
 
-                    <td>{{ report.activity_location }}</td>
+                    </td>
 
-                    <td>{{ report.length_covered }}</td>
+                    <td class="text-center">
 
-                    <td>{{ report.disposal_method }}</td>
+                        {{ report.participants }}
+
+                    </td>
+
+                    <td>
+
+                        {{ report.activity_location }}
+
+                    </td>
+
+                    <td class="text-center">
+
+                        {{ report.length_covered }}
+
+                    </td>
+
+                    <td class="text-center">
+
+                        {{ report.total_waste }}
+
+                    </td>
+
+                    <td>
+
+                        {{ report.disposal_method }}
+
+                    </td>
+
+                    <td>
+
+                        {{ report.remarks }}
+
+                    </td>
 
                 </tr>
 
@@ -55,7 +100,7 @@
 
                 <tr>
 
-                    <td colspan="6" class="text-center">
+                    <td colspan="8" class="text-center">
 
                         No approved reports found.
 
