@@ -892,4 +892,26 @@ def municipal_report(request):
 @login_required
 def download_municipal_excel(request):
 
-    return HttpResponse("Excel Export Coming Soon")
+    template_path = (
+        Path(__file__).resolve().parent
+        / "templates_excel"
+        / "municipal_template.xlsx"
+    )
+
+    workbook = load_workbook(template_path)
+
+    worksheet = workbook.active
+
+    response = HttpResponse(
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+
+    response["Content-Disposition"] = (
+        'attachment; filename="Municipal_Weekly_Report.xlsx"'
+    )
+
+    workbook.save(response)
+
+    return response
+
+
