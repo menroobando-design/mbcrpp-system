@@ -847,3 +847,24 @@ def dcf_form(request):
         },
     )
 
+
+# ==========================================
+# MUNICIPAL WEEKLY REPORT
+# ==========================================
+
+@login_required
+def municipal_report(request):
+
+    reports = WeeklyReport.objects.filter(
+        status="Approved"
+    ).order_by("barangay__name")
+
+    return render(
+        request,
+        "reports/municipal_report.html",
+        {
+            "reports": reports,
+        },
+    )
+
+

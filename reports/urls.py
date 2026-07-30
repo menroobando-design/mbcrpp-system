@@ -92,4 +92,10 @@ urlpatterns = [
         name="dcf_form",
     ),
 
+    path(
+        "municipal-report/",
+        views.municipal_report,
+        name="municipal_report",
+    ),
+
 ]

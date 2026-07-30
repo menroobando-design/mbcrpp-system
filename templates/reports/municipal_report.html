@@ -1,0 +1,76 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+
+<div class="card shadow">
+
+    <div class="card-header bg-success text-white">
+
+        <h3 class="mb-0">
+            Municipal Weekly Clean-up Report
+        </h3>
+
+    </div>
+
+    <div class="card-body">
+
+        <table class="table table-bordered table-striped">
+
+            <thead class="table-success">
+
+                <tr>
+
+                    <th>Barangay</th>
+                    <th>Date</th>
+                    <th>Participants</th>
+                    <th>Waterway Covered</th>
+                    <th>Length (m)</th>
+                    <th>Disposal</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for report in reports %}
+
+                <tr>
+
+                    <td>{{ report.barangay.name }}</td>
+
+                    <td>{{ report.activity_date }}</td>
+
+                    <td>{{ report.participants }}</td>
+
+                    <td>{{ report.activity_location }}</td>
+
+                    <td>{{ report.length_covered }}</td>
+
+                    <td>{{ report.disposal_method }}</td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="6" class="text-center">
+
+                        No approved reports found.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}
