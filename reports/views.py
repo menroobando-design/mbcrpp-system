@@ -857,14 +857,31 @@ def municipal_report(request):
 
     reports = WeeklyReport.objects.filter(
         status="Approved"
-    ).order_by("barangay__name")
+    )
+
+    month = request.GET.get("month")
+    year = request.GET.get("year")
+    week = request.GET.get("week")
+
+    if month:
+        reports = reports.filter(activity_date__month=month)
+
+    if year:
+        reports = reports.filter(activity_date__year=year)
+
+    if week:
+        reports = reports.filter(week_covered=week)
+
+    reports = reports.order_by("barangay__name")
 
     return render(
         request,
         "reports/municipal_report.html",
         {
             "reports": reports,
+            "selected_month": month,
+            "selected_year": year,
+            "selected_week": week,
         },
     )
-
 

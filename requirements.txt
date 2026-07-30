@@ -11,6 +11,7 @@ fonttools==4.63.0
 gunicorn==26.0.0
 idna==3.18
 lxml==6.1.1
+openpyxl
 packaging==26.2
 pillow==12.3.0
 psycopg==3.3.4
