@@ -98,4 +98,10 @@ urlpatterns = [
         name="municipal_report",
     ),
 
+    path(
+        "municipal/excel/",
+        views.download_municipal_excel,
+        name="municipal_excel",
+    ),
+
 ]

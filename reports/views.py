@@ -22,6 +22,9 @@ from .docx_generator import generate_report_docx
 from django.contrib import messages
 from django.utils import timezone
 import cloudinary.uploader
+from django.http import HttpResponse
+from openpyxl import load_workbook
+from pathlib import Path
 
 
 @login_required
@@ -885,3 +888,8 @@ def municipal_report(request):
         },
     )
 
+
+@login_required
+def download_municipal_excel(request):
+
+    return HttpResponse("Excel Export Coming Soon")
