@@ -902,6 +902,43 @@ def download_municipal_excel(request):
 
     worksheet = workbook.active
 
+    reports = WeeklyReport.objects.filter(
+        status="Approved"
+    ).order_by("barangay__name")
+
+    row = 7
+
+    for report in reports:
+
+        worksheet[f"B{row}"] = report.barangay.municipality.name
+        worksheet[f"C{row}"] = report.barangay.name
+
+        # Conducted Clean-up
+        worksheet[f"D{row}"] = 1
+        worksheet[f"E{row}"] = 0
+
+        # Participants
+        worksheet[f"F{row}"] = report.participants
+
+        # Posted in Social Media
+        worksheet[f"G{row}"] = ""
+        worksheet[f"H{row}"] = ""
+
+        # Activity
+        worksheet[f"I{row}"] = report.activity_location
+        worksheet[f"J{row}"] = report.length_covered
+
+        # Waste
+        worksheet[f"K{row}"] = report.total_waste
+
+        # Disposal
+        worksheet[f"L{row}"] = report.disposal_method
+
+        # Remarks
+        worksheet[f"M{row}"] = report.remarks
+
+        row += 1
+
     response = HttpResponse(
         content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )

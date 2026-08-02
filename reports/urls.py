@@ -3,82 +3,47 @@ from . import views
 
 urlpatterns = [
 
-    path("", views.report_list, name="report_list"),
-
-    path("add/", views.add_report, name="add_report"),
+    # ==========================================
+    # REPORT LIST
+    # ==========================================
 
     path(
-        "<int:report_id>/photos/",
-        views.upload_photos,
-        name="upload_photos"
+        "",
+        views.report_list,
+        name="report_list",
     ),
 
     path(
-        "<int:report_id>/submit/",
-        views.submit_report,
-        name="submit_report"
+        "add/",
+        views.add_report,
+        name="add_report",
     ),
 
-    path(
-        "<int:report_id>/review/",
-        views.review_report,
-        name="review_report"
-    ),
-
-    path(
-        "<int:report_id>/approve/",
-        views.approve_report,
-        name="approve_report"
-    ),
-
-    path(
-        "<int:report_id>/return/",
-        views.return_report,
-        name="return_report"
-    ),
+    # ==========================================
+    # REPORT STATUS LISTS
+    # ==========================================
 
     path(
         "pending/",
         views.pending_reports,
-        name="pending_reports"
+        name="pending_reports",
     ),
 
     path(
         "approved/",
         views.approved_reports,
-        name="approved_reports"
+        name="approved_reports",
     ),
 
     path(
         "returned/",
         views.returned_reports,
-        name="returned_reports"
+        name="returned_reports",
     ),
 
-    path(
-        "<int:report_id>/",
-        views.report_detail,
-        name="report_detail",
-    ),
-
-    path(
-        "<int:report_id>/edit/",
-        views.edit_report,
-        name="edit_report"
-    ),
-
-    path(
-        "<int:report_id>/pdf/",
-        views.download_pdf,
-        name="download_pdf",
-    ),
-
-    
-    path(
-        "<int:report_id>/delete/",
-        views.delete_report,
-        name="delete_report",
-    ),
+    # ==========================================
+    # DCF REPORTS
+    # ==========================================
 
     path(
         "dcf/",
@@ -92,6 +57,10 @@ urlpatterns = [
         name="dcf_form",
     ),
 
+    # ==========================================
+    # MUNICIPAL REPORTS
+    # ==========================================
+
     path(
         "municipal-report/",
         views.municipal_report,
@@ -102,6 +71,69 @@ urlpatterns = [
         "municipal/excel/",
         views.download_municipal_excel,
         name="municipal_excel",
+    ),
+
+    # ==========================================
+    # REPORT ACTIONS
+    # ==========================================
+
+    path(
+        "<int:report_id>/photos/",
+        views.upload_photos,
+        name="upload_photos",
+    ),
+
+    path(
+        "<int:report_id>/submit/",
+        views.submit_report,
+        name="submit_report",
+    ),
+
+    path(
+        "<int:report_id>/review/",
+        views.review_report,
+        name="review_report",
+    ),
+
+    path(
+        "<int:report_id>/approve/",
+        views.approve_report,
+        name="approve_report",
+    ),
+
+    path(
+        "<int:report_id>/return/",
+        views.return_report,
+        name="return_report",
+    ),
+
+    path(
+        "<int:report_id>/edit/",
+        views.edit_report,
+        name="edit_report",
+    ),
+
+    path(
+        "<int:report_id>/pdf/",
+        views.download_pdf,
+        name="download_pdf",
+    ),
+
+    path(
+        "<int:report_id>/delete/",
+        views.delete_report,
+        name="delete_report",
+    ),
+
+    # ==========================================
+    # REPORT DETAIL
+    # MUST ALWAYS BE LAST
+    # ==========================================
+
+    path(
+        "<int:report_id>/",
+        views.report_detail,
+        name="report_detail",
     ),
 
 ]
