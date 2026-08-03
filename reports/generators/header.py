@@ -48,7 +48,11 @@ def draw_header(c, report):
         barangay_logo = None
 
     print("Looking for:", barangay_logo)
-    print("Exists:", os.path.exists(barangay_logo))
+
+    if barangay_logo:
+        print("Exists:", os.path.exists(barangay_logo))
+    else:
+        print("Barangay logo not found.")
 
     # ---------------------------------------------------
     # DRAW LOGOS
@@ -56,7 +60,7 @@ def draw_header(c, report):
 
     logo_size = 2.5 * cm
 
-    if os.path.exists(barangay_logo):
+    if barangay_logo and os.path.exists(barangay_logo):
         c.drawImage(
             barangay_logo,
             2 * cm,

@@ -71,13 +71,43 @@
                 📸 Upload Activity Photos
             </h5>
 
-            <div class="card mb-3">
+<div class="card mb-3">
+
     <div class="card-header bg-light">
         <strong>Before Photos</strong>
     </div>
+
     <div class="card-body">
+
+        {% for photo in photos %}
+
+            {% if photo.category == "Before" %}
+
+                <div class="mb-3">
+
+                    <img src="{{ photo.image.url }}"
+                         class="img-thumbnail"
+                         style="max-width:200px;">
+
+                    <br><br>
+
+                    <a href="{% url 'delete_photo' photo.id %}"
+                       class="btn btn-danger btn-sm">
+
+                        Delete Photo
+
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        {% endfor %}
+
         {{ form.before_photos }}
+
     </div>
+
 </div>
 
 <div class="card mb-3">

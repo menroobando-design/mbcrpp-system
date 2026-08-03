@@ -414,8 +414,49 @@ def edit_report(request, report_id):
         {
             "form": form,
             "report": report,
+            "photos": report.photos.all(),
         }
     )
+
+@login_required
+def delete_photo(request, photo_id):
+
+    photo = get_object_or_404(
+        ReportPhoto,
+        pk=photo_id
+    )
+
+    report = photo.report
+
+    profile = get_object_or_404(
+        UserProfile,
+        user=request.user
+    )
+
+    if profile.role != "MENRO":
+
+        if report.barangay != profile.barangay:
+            return redirect("report_list")
+
+    if photo.image:
+
+        try:
+            cloudinary.uploader.destroy(photo.image.public_id)
+        except Exception:
+            pass
+
+    photo.delete()
+
+    messages.success(
+        request,
+        "Photo deleted successfully."
+    )
+
+    return redirect(
+        "edit_report",
+        report.id
+    )
+
 
 from django.http import FileResponse
 
@@ -490,11 +531,6 @@ def returned_reports(request):
 def delete_report(request, report_id):
 
     print(">>> DELETE REPORT VIEW OPENED <<<")
-
-    report = get_object_or_404(
-        WeeklyReport,
-        pk=report_id
-    )
 
     report = get_object_or_404(
         WeeklyReport,
