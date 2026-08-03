@@ -28,6 +28,13 @@ class WeeklyReport(models.Model):
         help_text="Length covered in meters"
     )
 
+    volume_of_waste = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        help_text="Total volume of waste collected (kg)"
+    )
+
     # ======================================
     # WASTE COLLECTED (Kilograms)
     # ======================================
@@ -101,7 +108,13 @@ class WeeklyReport(models.Model):
     def __str__(self):
         return f"{self.barangay} - {self.week_covered}"
 
-    
+    @property
+    def total_waste(self):
+        return (
+            self.biodegradable +
+            self.recyclable +
+            self.residual
+        )
 
     def save(self, *args, **kwargs):
 

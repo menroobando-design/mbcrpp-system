@@ -70,6 +70,8 @@ class WeeklyReportForm(forms.ModelForm):
 
             "length_covered",
 
+            "volume_of_waste",
+
             # Waste Collected
             "biodegradable",
             "recyclable",
@@ -103,6 +105,13 @@ class WeeklyReportForm(forms.ModelForm):
             "length_covered": forms.NumberInput(
                 attrs={
                     "placeholder": "Length Covered (meters)"
+                }
+            ),
+
+            "volume_of_waste": forms.NumberInput(
+                attrs={
+                    "step": "0.01",
+                    "placeholder": "Total Waste Collected (kg)"
                 }
             ),
 
