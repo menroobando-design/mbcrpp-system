@@ -26,6 +26,9 @@ from django.http import HttpResponse
 from openpyxl import load_workbook
 from pathlib import Path
 
+from io import BytesIO
+from reports.generators.municipal_excel import generate_municipal_excel
+
 
 @login_required
 def report_list(request):
@@ -991,6 +994,29 @@ def download_municipal_excel(request):
     )
 
     workbook.save(response)
+
+    return response
+
+
+@login_required
+def download_kalinisan_excel(request):
+
+    workbook, sheet = generate_municipal_excel()
+
+    output = BytesIO()
+
+    workbook.save(output)
+
+    output.seek(0)
+
+    response = HttpResponse(
+        output.read(),
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+
+    response["Content-Disposition"] = (
+        'attachment; filename="Kalinisan_Weekly_Report.xlsx"'
+    )
 
     return response
 

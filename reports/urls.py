@@ -73,6 +73,12 @@ urlpatterns = [
         name="municipal_excel",
     ),
 
+    path(
+        "kalinisan/excel/",
+        views.download_kalinisan_excel,
+        name="download_kalinisan_excel",
+    ),
+
     # ==========================================
     # REPORT ACTIONS
     # ==========================================
@@ -124,6 +130,8 @@ urlpatterns = [
         views.delete_report,
         name="delete_report",
     ),
+
+    
 
     # ==========================================
     # REPORT DETAIL
