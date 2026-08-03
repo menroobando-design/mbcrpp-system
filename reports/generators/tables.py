@@ -144,67 +144,18 @@ def draw_information_table(c, report):
     )
 
     # -------------------------------------------------
-    # WASTE COLLECTED TABLE
+    # TOTAL WASTE COLLECTED
     # -------------------------------------------------
 
-    waste_data = [
+    c.setFont("Helvetica-Bold", 10)
 
-        ["Type of Waste", "Volume Collected (kg)"],
-
-        ["Biodegradable", f"{report.biodegradable:.2f}"],
-
-        ["Recyclable", f"{report.recyclable:.2f}"],
-
-        ["Residual", f"{report.residual:.2f}"],
-
-        ["TOTAL", f"{report.total_waste:.2f}"],
-
-    ]
-
-    waste_table = Table(
-
-        waste_data,
-
-        colWidths=[
-            9 * cm,
-            4 * cm,
-        ]
-
+    c.drawString(
+        2 * cm,
+        y - 5.8 * cm,
+        f"TOTAL WASTE COLLECTED : {report.total_waste:.2f} kg"
     )
-
-    waste_table.setStyle(
-
-        TableStyle([
-
-            ("GRID", (0,0), (-1,-1), 0.5, colors.black),
-
-            ("BOX", (0,0), (-1,-1), 1, colors.black),
-
-            ("BACKGROUND", (0,0), (-1,0), colors.lightgrey),
-
-            ("FONTNAME", (0,0), (-1,0), "Helvetica-Bold"),
-
-            ("FONTNAME", (0,-1), (-1,-1), "Helvetica-Bold"),
-
-            ("ALIGN", (1,1), (-1,-1), "CENTER"),
-
-            ("TOPPADDING", (0,0), (-1,-1), 5),
-
-            ("BOTTOMPADDING", (0,0), (-1,-1), 5),
-
-        ])
-
-    )
-
-    waste_table.wrapOn(c, width, height)
-
-    waste_table.drawOn(
-        c,
-        1.3 * cm,
-        y - 8.4 * cm
-    )
+ 
     
-
     # -------------------------------------------------
     # REMARKS TABLE
     # -------------------------------------------------
@@ -270,5 +221,5 @@ def draw_information_table(c, report):
     remarks_table.drawOn(
         c,
         1.3 * cm,
-        y - 12.8 * cm
+        y - 8.2 * cm
     )
