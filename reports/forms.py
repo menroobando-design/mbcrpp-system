@@ -70,6 +70,12 @@ class WeeklyReportForm(forms.ModelForm):
 
             "length_covered",
 
+            # Waste Collected
+            "biodegradable",
+            "recyclable",
+            "residual",
+
+            # Participants
             "barangay_officials",
 
             "sk_members",
@@ -80,7 +86,7 @@ class WeeklyReportForm(forms.ModelForm):
 
             "remarks",
 
-        ]
+        ]   
 
         widgets = {
 
@@ -99,6 +105,31 @@ class WeeklyReportForm(forms.ModelForm):
                     "placeholder": "Length Covered (meters)"
                 }
             ),
+
+            "biodegradable": forms.NumberInput(
+                attrs={
+                    "placeholder": "Biodegradable (kg)",
+                    "step": "0.01",
+                    "min": "0",
+                }
+            ),
+
+            "recyclable": forms.NumberInput(
+                attrs={
+                    "placeholder": "Recyclable (kg)",
+                    "step": "0.01",
+                    "min": "0",
+                }
+            ),
+
+            "residual": forms.NumberInput(
+                attrs={
+                    "placeholder": "Residual (kg)",
+                    "step": "0.01",
+                    "min": "0",
+                }
+            ),
+        
 
             "barangay_officials": forms.NumberInput(
                 attrs={"min": 0}

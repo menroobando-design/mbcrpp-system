@@ -29,6 +29,31 @@ class WeeklyReport(models.Model):
     )
 
     # ======================================
+    # WASTE COLLECTED (Kilograms)
+    # ======================================
+
+    biodegradable = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        verbose_name="Biodegradable Waste (kg)"
+    )
+
+    recyclable = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        verbose_name="Recyclable Waste (kg)"
+    )
+
+    residual = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+        verbose_name="Residual Waste (kg)"
+    )
+
+    # ======================================
     # PARTICIPANTS
     # ======================================
 
