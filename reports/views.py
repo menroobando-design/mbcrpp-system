@@ -489,6 +489,13 @@ def returned_reports(request):
 @login_required
 def delete_report(request, report_id):
 
+    print(">>> DELETE REPORT VIEW OPENED <<<")
+
+    report = get_object_or_404(
+        WeeklyReport,
+        pk=report_id
+    )
+
     report = get_object_or_404(
         WeeklyReport,
         pk=report_id
@@ -504,7 +511,7 @@ def delete_report(request, report_id):
     # Can delete ANY report
     # ----------------------------------------
 
-    if profile.role in ["MENRO Admin", "MENRO Staff"]:
+    if profile.role == "MENRO":
         pass
 
     # ----------------------------------------
@@ -568,7 +575,7 @@ def delete_report(request, report_id):
         )
 
         # MENRO goes back to Approved Reports
-        if profile.role in ["MENRO Admin", "MENRO Staff"]:
+        if profile.role == "MENRO":
             return redirect("approved_reports")
 
         # Barangay users go back to their reports
