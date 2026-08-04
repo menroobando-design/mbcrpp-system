@@ -11,6 +11,18 @@ class Barangay(models.Model):
         null=True
     )
 
+    captain_signature = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Example: captain_catanghalan.png"
+    )
+
+    committee_signature = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Example: committee_catanghalan.png"
+    )
+
     committee_chair = models.CharField(
         "Environment Committee Chair",
         max_length=150,

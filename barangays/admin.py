@@ -7,15 +7,15 @@ class BarangayAdmin(admin.ModelAdmin):
 
     list_display = (
         "name",
-        "committee_chair",
         "barangay_captain",
-        "contact_number",
+        "committee_chair",
         "active",
     )
 
     search_fields = (
         "name",
-        "punong_barangay",
+        "barangay_captain",
+        "committee_chair",
     )
 
     list_filter = (
@@ -24,4 +24,20 @@ class BarangayAdmin(admin.ModelAdmin):
 
     ordering = (
         "name",
+    )
+
+    fields = (
+        "name",
+        "municipality",
+        "logo",
+
+        "barangay_captain",
+        "captain_signature",
+
+        "committee_chair",
+        "committee_signature",
+
+        "contact_number",
+        "email",
+        "active",
     )
