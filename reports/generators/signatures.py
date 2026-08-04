@@ -61,29 +61,7 @@ def draw_signatures(c, report):
                 mask="auto",
             )
 
-    # Barangay Captain Signature
-
-    if report.barangay.captain_signature:
-
-        signature_path = (
-            Path(settings.BASE_DIR)
-            / "static"
-            / "images"
-            / "signatures"
-            / report.barangay.captain_signature
-        )
-
-        if signature_path.exists():
-
-            c.drawImage(
-                str(signature_path),
-                3.5 * cm,
-                y - 1.25 * cm,
-                width=3 * cm,
-                height=1 * cm,
-                preserveAspectRatio=True,
-                mask="auto",
-            )
+    
 
 
     # Name
@@ -155,6 +133,31 @@ def draw_signatures(c, report):
         y,
         "Certified Correct:"
     )
+
+
+    # Barangay Captain Signature
+
+    if report.barangay.captain_signature:
+
+        signature_path = (
+            Path(settings.BASE_DIR)
+            / "static"
+            / "images"
+            / "signatures"
+            / report.barangay.captain_signature
+        )
+
+        if signature_path.exists():
+
+            c.drawImage(
+                str(signature_path),
+                3.5 * cm,
+                y - 1.25 * cm,
+                width=3 * cm,
+                height=1 * cm,
+                preserveAspectRatio=True,
+                mask="auto",
+            )
 
     # Name
 
