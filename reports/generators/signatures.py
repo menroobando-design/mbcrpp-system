@@ -1,4 +1,6 @@
 from reportlab.lib.units import cm
+from pathlib import Path
+from django.conf import settings
 
 
 def draw_signatures(c, report):
@@ -34,6 +36,55 @@ def draw_signatures(c, report):
         y,
         "Prepared by:"
     )
+
+    # Committee Chair Signature
+
+    if report.barangay.committee_signature:
+
+        signature_path = (
+            Path(settings.BASE_DIR)
+            / "static"
+            / "images"
+            / "signatures"
+            / report.barangay.committee_signature
+        )
+
+        if signature_path.exists():
+
+            c.drawImage(
+                str(signature_path),
+                3.5 * cm,
+                y - 1.25 * cm,
+                width=3 * cm,
+                height=1 * cm,
+                preserveAspectRatio=True,
+                mask="auto",
+            )
+
+    # Barangay Captain Signature
+
+    if report.barangay.captain_signature:
+
+        signature_path = (
+            Path(settings.BASE_DIR)
+            / "static"
+            / "images"
+            / "signatures"
+            / report.barangay.captain_signature
+        )
+
+        if signature_path.exists():
+
+            c.drawImage(
+                str(signature_path),
+                3.5 * cm,
+                y - 1.25 * cm,
+                width=3 * cm,
+                height=1 * cm,
+                preserveAspectRatio=True,
+                mask="auto",
+            )
+
 
     # Name
 
