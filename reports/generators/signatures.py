@@ -54,9 +54,9 @@ def draw_signatures(c, report):
             c.drawImage(
                 str(signature_path),
                 2.9 * cm,
-                y - 1.65 * cm,
+                y - 1.05 * cm,
                 width=4.5 * cm,
-                height=1.8 * cm,
+                height=1.2 * cm,
                 preserveAspectRatio=True,
                 mask="auto",
             )
@@ -152,9 +152,9 @@ def draw_signatures(c, report):
             c.drawImage(
                 str(signature_path),
                 2.9 * cm,
-                y - 1.65 * cm,
+                y - 1.05 * cm,
                 width=4.5 * cm,
-                height=1.8 * cm,
+                height=1.2 * cm,
                 preserveAspectRatio=True,
                 mask="auto",
             )
