@@ -211,13 +211,13 @@ def generate_report_pdf(report):
 
     #]
 
-    for title, queryset in photo_categories:
+    # for title, queryset in photo_categories:
 
-        photos = list(queryset)
+    #    photos = list(queryset)
 
-        if photos:
+    #    if photos:
 
-            draw_photo_page(c, title, photos)
+    #        draw_photo_page(c, title, photos)
 
     c.save()
 
