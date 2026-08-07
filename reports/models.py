@@ -317,6 +317,12 @@ class DCFReport(models.Model):
         related_name="reviewed_reports"
     )
 
+    generated_pdf = models.FileField(
+        upload_to="generated_reports/",
+        blank=True,
+        null=True
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
