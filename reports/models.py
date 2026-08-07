@@ -103,6 +103,13 @@ class WeeklyReport(models.Model):
         default="Draft"
     )
 
+    generated_pdf = models.FileField(
+            upload_to="generated_reports/",
+            blank=True,
+            null=True
+        )
+    
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -317,12 +324,7 @@ class DCFReport(models.Model):
         related_name="reviewed_reports"
     )
 
-    generated_pdf = models.FileField(
-        upload_to="generated_reports/",
-        blank=True,
-        null=True
-    )
-
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
