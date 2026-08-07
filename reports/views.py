@@ -240,6 +240,30 @@ def submit_report(request, report_id):
 
     return redirect("report_list")
 
+print("STEP 1: Generating PDF...")
+pdf_path = generate_report_pdf(report)
+
+print("PDF PATH:", pdf_path)
+print("FILE EXISTS:", os.path.exists(pdf_path))
+
+with open(pdf_path, "rb") as pdf:
+    print("STEP 2: Saving generated_pdf...")
+
+    report.generated_pdf.save(
+        f"Report_{report.id}.pdf",
+        File(pdf),
+        save=False,
+    )
+
+print("STEP 3: generated_pdf =", report.generated_pdf.name)
+
+report.status = "Submitted"
+report.submitted_at = timezone.now()
+report.submitted_by = request.user
+report.save()
+
+print("STEP 4: Report saved")
+
 
 @login_required
 def review_report(request, report_id):
