@@ -4,6 +4,10 @@ from PIL import Image
 
 from reportlab.lib.units import cm
 
+import tempfile
+import requests
+import cloudinary.utils
+
 
 # ==================================================
 # SETTINGS
@@ -57,32 +61,52 @@ def draw_photo_pages(c, report):
 
         for photo in photos:
 
-            if os.path.exists(photo.image.path):
+            try:
 
-                img = Image.open(photo.image.path)
-
-                img_w, img_h = img.size
-
-                scale = min(
-                    PHOTO_BOX_WIDTH / img_w,
-                    PHOTO_BOX_HEIGHT / img_h
+                image_url, options = cloudinary.utils.cloudinary_url(
+                    photo.image.public_id,
+                    fetch_format="auto",
+                    quality="auto:best",
+                    width=1600,
+                    crop="limit",
                 )
 
-                draw_w = img_w * scale
-                draw_h = img_h * scale
+                response = requests.get(image_url, timeout=20)
 
-                draw_x = x + (PHOTO_BOX_WIDTH - draw_w) / 2
-                draw_y = y - draw_h
+                if response.status_code == 200:
 
-                c.drawImage(
-                    photo.image.path,
-                    draw_x,
-                    draw_y,
-                    width=draw_w,
-                    height=draw_h,
-                    preserveAspectRatio=True,
-                    mask="auto",
-                )
+                    with tempfile.NamedTemporaryFile(suffix=".jpg") as tmp:
+
+                        tmp.write(response.content)
+                        tmp.flush()
+
+                        with Image.open(tmp.name) as img:
+
+                            img_w, img_h = img.size
+
+                        scale = min(
+                            PHOTO_BOX_WIDTH / img_w,
+                            PHOTO_BOX_HEIGHT / img_h,
+                        )
+
+                        draw_w = img_w * scale
+                        draw_h = img_h * scale
+
+                        draw_x = x + (PHOTO_BOX_WIDTH - draw_w) / 2
+                        draw_y = y - draw_h
+
+                        c.drawImage(
+                            tmp.name,
+                            draw_x,
+                            draw_y,
+                            width=draw_w,
+                            height=draw_h,
+                            preserveAspectRatio=True,
+                            mask="auto",
+                        )
+
+            except Exception as e:
+                print(e)
 
             c.setFont("Helvetica", 9)
 
