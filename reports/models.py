@@ -104,10 +104,10 @@ class WeeklyReport(models.Model):
     )
 
     generated_pdf = models.FileField(
-            upload_to="generated_reports/",
-            blank=True,
-            null=True
-        )
+        upload_to="generated_reports/",
+        blank=True,
+        null=True
+    )
     
 
     created_at = models.DateTimeField(auto_now_add=True)
