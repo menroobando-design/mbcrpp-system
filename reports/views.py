@@ -26,6 +26,12 @@ from django.http import HttpResponse
 from openpyxl import load_workbook
 from pathlib import Path
 
+from django.core.files import File
+from django.core.files.base import ContentFile
+from .generators.pdf_generator import generate_report_pdf
+from django.core.files import File
+import os
+
 from io import BytesIO
 from reports.generators.municipal_excel import generate_municipal_excel
 
@@ -202,8 +208,27 @@ def submit_report(request, report_id):
         profile = UserProfile.objects.get(user=request.user)
 
         if report.barangay != profile.barangay:
-
             return redirect("report_list")
+
+    # -----------------------------------
+    # Generate PDF BEFORE submitting
+    # -----------------------------------
+
+    pdf_path = generate_report_pdf(report)
+
+    with open(pdf_path, "rb") as pdf:
+
+        report.generated_pdf.save(
+            f"Report_{report.id}.pdf",
+            File(pdf),
+            save=False,
+        )
+
+    os.remove(pdf_path)
+
+    # -----------------------------------
+    # Submit report
+    # -----------------------------------
 
     report.status = "Submitted"
 
@@ -482,14 +507,21 @@ def download_pdf(request, report_id):
         if report.barangay != profile.barangay:
             return redirect("report_list")
 
-    from .generators.pdf_generator import generate_report_pdf
+    # -------------------------------------
+    # Download existing PDF only
+    # -------------------------------------
 
-    pdf_file = generate_report_pdf(report)
+    if report.generated_pdf:
 
-    return FileResponse(
-        open(pdf_file, "rb"),
-        as_attachment=True,
-        filename=f"Report_{report.id}.pdf"
+        return FileResponse(
+            report.generated_pdf.open("rb"),
+            as_attachment=True,
+            filename=f"Report_{report.id}.pdf"
+        )
+
+    return HttpResponse(
+        "PDF has not been generated yet.",
+        status=404
     )
 
 @login_required
