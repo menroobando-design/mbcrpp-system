@@ -205,18 +205,31 @@ def submit_report(request, report_id):
 
     if not request.user.is_staff:
 
-        profile = UserProfile.objects.get(user=request.user)
+        profile = UserProfile.objects.get(
+            user=request.user
+        )
 
         if report.barangay != profile.barangay:
             return redirect("report_list")
 
     # -----------------------------------
-    # Generate PDF BEFORE submitting
+    # Generate PDF
     # -----------------------------------
+
+    print("STEP 1: Generating PDF...")
 
     pdf_path = generate_report_pdf(report)
 
+    print("PDF PATH:", pdf_path)
+    print("FILE EXISTS:", os.path.exists(pdf_path))
+
+    # -----------------------------------
+    # Save PDF to WeeklyReport
+    # -----------------------------------
+
     with open(pdf_path, "rb") as pdf:
+
+        print("STEP 2: Saving generated_pdf...")
 
         report.generated_pdf.save(
             f"Report_{report.id}.pdf",
@@ -224,7 +237,17 @@ def submit_report(request, report_id):
             save=False,
         )
 
-    os.remove(pdf_path)
+    print(
+        "STEP 3: generated_pdf =",
+        report.generated_pdf.name
+    )
+
+    # -----------------------------------
+    # Delete temporary PDF
+    # -----------------------------------
+
+    if os.path.exists(pdf_path):
+        os.remove(pdf_path)
 
     # -----------------------------------
     # Submit report
@@ -238,32 +261,9 @@ def submit_report(request, report_id):
 
     report.save()
 
+    print("STEP 4: Report saved")
+
     return redirect("report_list")
-
-print("STEP 1: Generating PDF...")
-pdf_path = generate_report_pdf(report)
-
-print("PDF PATH:", pdf_path)
-print("FILE EXISTS:", os.path.exists(pdf_path))
-
-with open(pdf_path, "rb") as pdf:
-    print("STEP 2: Saving generated_pdf...")
-
-    report.generated_pdf.save(
-        f"Report_{report.id}.pdf",
-        File(pdf),
-        save=False,
-    )
-
-print("STEP 3: generated_pdf =", report.generated_pdf.name)
-
-report.status = "Submitted"
-report.submitted_at = timezone.now()
-report.submitted_by = request.user
-report.save()
-
-print("STEP 4: Report saved")
-
 
 @login_required
 def review_report(request, report_id):
