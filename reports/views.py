@@ -531,6 +531,10 @@ def download_pdf(request, report_id):
         pk=report_id
     )
 
+    # -----------------------------------
+    # Permission check
+    # -----------------------------------
+
     if not request.user.is_staff:
 
         profile = get_object_or_404(
@@ -541,22 +545,109 @@ def download_pdf(request, report_id):
         if report.barangay != profile.barangay:
             return redirect("report_list")
 
-    # -------------------------------------
-    # Download existing PDF only
-    # -------------------------------------
+    # -----------------------------------
+    # Try existing PDF first
+    # -----------------------------------
 
     if report.generated_pdf:
 
-        return FileResponse(
-            report.generated_pdf.open("rb"),
-            as_attachment=True,
-            filename=f"Report_{report.id}.pdf"
+        try:
+
+            print(
+                f"STEP 1: Existing PDF found: "
+                f"{report.generated_pdf.name}"
+            )
+
+            return FileResponse(
+                report.generated_pdf.open("rb"),
+                as_attachment=True,
+                filename=f"Report_{report.id}.pdf"
+            )
+
+        except FileNotFoundError:
+
+            print(
+                f"STEP 2: PDF file missing for "
+                f"Report {report.id}"
+            )
+
+    # -----------------------------------
+    # PDF doesn't exist → regenerate
+    # -----------------------------------
+
+    print(
+        f"STEP 3: Generating PDF for "
+        f"Report {report.id}..."
+    )
+
+    from .generators.pdf_generator import generate_report_pdf
+
+    pdf_path = generate_report_pdf(report)
+
+    print(
+        f"STEP 4: Generated PDF path: "
+        f"{pdf_path}"
+    )
+
+    if not os.path.exists(pdf_path):
+
+        print(
+            "ERROR: PDF generation failed."
         )
 
-    return HttpResponse(
-        "PDF has not been generated yet.",
-        status=404
+        return redirect(
+            "report_detail",
+            report_id=report.id
+        )
+
+    # -----------------------------------
+    # Save generated PDF
+    # -----------------------------------
+
+    print("STEP 5: Saving regenerated PDF...")
+
+    with open(pdf_path, "rb") as pdf:
+
+        report.generated_pdf.save(
+            f"Report_{report.id}.pdf",
+            File(pdf),
+            save=True,
+        )
+
+    print(
+        f"STEP 6: PDF saved as: "
+        f"{report.generated_pdf.name}"
     )
+
+    # -----------------------------------
+    # Remove temporary PDF
+    # -----------------------------------
+
+    try:
+
+        os.remove(pdf_path)
+
+        print("STEP 7: Temporary PDF removed.")
+
+    except OSError:
+
+        print(
+            "WARNING: Could not remove "
+            "temporary PDF."
+        )
+
+    # -----------------------------------
+    # Download regenerated PDF
+    # -----------------------------------
+
+    print("STEP 8: Sending PDF to browser...")
+
+    return FileResponse(
+        report.generated_pdf.open("rb"),
+        as_attachment=True,
+        filename=f"Report_{report.id}.pdf"
+    )
+
 
 @login_required
 def pending_reports(request):
