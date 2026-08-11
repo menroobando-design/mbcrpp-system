@@ -38,6 +38,16 @@ def draw_photo_page(c, title, photos):
 
     index = 0
 
+    # ======================================================
+    # SPECIAL LAYOUT
+    # Attendance with ONLY ONE photo
+    # ======================================================
+
+    single_attendance = (
+        title == "Attendance"
+        and len(photos) == 1
+    )
+
     while index < len(photos):
 
         c.showPage()
@@ -54,11 +64,139 @@ def draw_photo_page(c, title, photos):
             title.upper()
         )
 
-        # ------------------------------------
-        # Photo Positions
-        # ------------------------------------
+        # ==================================================
+        # SINGLE ATTENDANCE PHOTO
+        # ==================================================
 
-        first_photo_y = height - TOP_MARGIN - PHOTO_HEIGHT
+        if single_attendance:
+
+            # Larger frame for single Attendance photo
+            frame_width = 18 * cm
+            frame_height = 21 * cm
+
+            frame_x = (
+                width - frame_width
+            ) / 2
+
+            frame_y = (
+                height
+                - 1.5 * inch
+                - frame_height
+            )
+
+            photo = photos[index]
+
+            try:
+
+                img = ImageReader(
+                    urlopen(photo.image.url)
+                )
+
+                img_width, img_height = img.getSize()
+
+                # --------------------------------
+                # Fit image inside large frame
+                # --------------------------------
+
+                scale_x = (
+                    frame_width / img_width
+                )
+
+                scale_y = (
+                    frame_height / img_height
+                )
+
+                scale = min(
+                    scale_x,
+                    scale_y
+                )
+
+                draw_width = (
+                    img_width * scale
+                )
+
+                draw_height = (
+                    img_height * scale
+                )
+
+                # --------------------------------
+                # Center image
+                # --------------------------------
+
+                image_x = (
+                    frame_x
+                    + (
+                        frame_width
+                        - draw_width
+                    ) / 2
+                )
+
+                image_y = (
+                    frame_y
+                    + (
+                        frame_height
+                        - draw_height
+                    ) / 2
+                )
+
+                # --------------------------------
+                # Draw Image
+                # --------------------------------
+
+                c.drawImage(
+                    img,
+                    image_x,
+                    image_y,
+                    width=draw_width,
+                    height=draw_height,
+                    preserveAspectRatio=True,
+                    mask="auto",
+                )
+
+                # --------------------------------
+                # Caption
+                # --------------------------------
+
+                if photo.caption:
+
+                    c.setFont(
+                        "Helvetica",
+                        10
+                    )
+
+                    c.drawCentredString(
+                        width / 2,
+                        frame_y - 0.45 * cm,
+                        photo.caption
+                    )
+
+            except Exception as e:
+
+                print(
+                    "IMAGE ERROR:",
+                    e
+                )
+
+                c.drawCentredString(
+                    width / 2,
+                    frame_y,
+                    "Unable to load image."
+                )
+
+            index += 1
+
+            # Only one photo on this page
+            continue
+
+        # ==================================================
+        # NORMAL TWO-PHOTO LAYOUT
+        # ==================================================
+
+        first_photo_y = (
+            height
+            - TOP_MARGIN
+            - PHOTO_HEIGHT
+        )
 
         second_photo_y = (
             first_photo_y
@@ -72,6 +210,10 @@ def draw_photo_page(c, title, photos):
             second_photo_y,
         ]
 
+        # ------------------------------------
+        # Draw up to 2 photos
+        # ------------------------------------
+
         for frame_y in positions:
 
             if index >= len(photos):
@@ -81,56 +223,89 @@ def draw_photo_page(c, title, photos):
 
             try:
 
-                img = ImageReader(urlopen(photo.image.url))
+                img = ImageReader(
+                    urlopen(photo.image.url)
+                )
 
                 img_width, img_height = img.getSize()
 
-                # ------------------------------------
+                # --------------------------------
                 # Auto detect orientation
-                # ------------------------------------
+                # --------------------------------
 
                 if img_width >= img_height:
-                    scale = PHOTO_WIDTH / img_width
+
+                    scale = (
+                        PHOTO_WIDTH
+                        / img_width
+                    )
+
                 else:
-                    scale = PHOTO_HEIGHT / img_height
 
-                draw_width = img_width * scale
-                draw_height = img_height * scale
+                    scale = (
+                        PHOTO_HEIGHT
+                        / img_height
+                    )
 
+                draw_width = (
+                    img_width * scale
+                )
+
+                draw_height = (
+                    img_height * scale
+                )
+
+                # --------------------------------
                 # Never exceed frame
+                # --------------------------------
 
                 if draw_width > PHOTO_WIDTH:
 
-                    scale = PHOTO_WIDTH / draw_width
+                    scale = (
+                        PHOTO_WIDTH
+                        / draw_width
+                    )
 
                     draw_width *= scale
                     draw_height *= scale
 
                 if draw_height > PHOTO_HEIGHT:
 
-                    scale = PHOTO_HEIGHT / draw_height
+                    scale = (
+                        PHOTO_HEIGHT
+                        / draw_height
+                    )
 
                     draw_width *= scale
                     draw_height *= scale
 
-                # ------------------------------------
+                # --------------------------------
                 # Center image
-                # ------------------------------------
+                # --------------------------------
 
-                frame_x = (width - PHOTO_WIDTH) / 2
+                frame_x = (
+                    width - PHOTO_WIDTH
+                ) / 2
 
-                image_x = frame_x + (
-                    (PHOTO_WIDTH - draw_width) / 2
+                image_x = (
+                    frame_x
+                    + (
+                        PHOTO_WIDTH
+                        - draw_width
+                    ) / 2
                 )
 
-                image_y = frame_y + (
-                    (PHOTO_HEIGHT - draw_height) / 2
+                image_y = (
+                    frame_y
+                    + (
+                        PHOTO_HEIGHT
+                        - draw_height
+                    ) / 2
                 )
 
-                # ------------------------------------
+                # --------------------------------
                 # Draw Image
-                # (NO BORDER / FRAME)
-                # ------------------------------------
+                # --------------------------------
 
                 c.drawImage(
                     img,
@@ -142,13 +317,16 @@ def draw_photo_page(c, title, photos):
                     mask="auto",
                 )
 
-                # ------------------------------------
+                # --------------------------------
                 # Caption
-                # ------------------------------------
+                # --------------------------------
 
                 if photo.caption:
 
-                    c.setFont("Helvetica", 10)
+                    c.setFont(
+                        "Helvetica",
+                        10
+                    )
 
                     c.drawCentredString(
                         width / 2,
@@ -158,7 +336,10 @@ def draw_photo_page(c, title, photos):
 
             except Exception as e:
 
-                print("IMAGE ERROR:", e)
+                print(
+                    "IMAGE ERROR:",
+                    e
+                )
 
                 c.drawCentredString(
                     width / 2,
