@@ -198,10 +198,14 @@ def upload_photos(request, report_id):
 @login_required
 def submit_report(request, report_id):
 
+    print("========== SUBMIT REPORT START ==========")
+
     report = get_object_or_404(
         WeeklyReport,
         pk=report_id
     )
+
+    print("STEP 1: Report found:", report.id)
 
     if not request.user.is_staff:
 
@@ -216,38 +220,43 @@ def submit_report(request, report_id):
     # Generate PDF
     # -----------------------------------
 
-    print("STEP 1: Generating PDF...")
+    print("STEP 2: Generating PDF...")
 
     pdf_path = generate_report_pdf(report)
 
-    print("PDF PATH:", pdf_path)
-    print("FILE EXISTS:", os.path.exists(pdf_path))
+    print("STEP 3: PDF PATH:", pdf_path)
+    print("STEP 4: FILE EXISTS:", os.path.exists(pdf_path))
 
     # -----------------------------------
-    # Save PDF to WeeklyReport
-    # -----------------------------------
-
-    with open(pdf_path, "rb") as pdf:
-
-        print("STEP 2: Saving generated_pdf...")
-
-        report.generated_pdf.save(
-            f"Report_{report.id}.pdf",
-            File(pdf),
-            save=False,
-        )
-
-    print(
-        "STEP 3: generated_pdf =",
-        report.generated_pdf.name
-    )
-
-    # -----------------------------------
-    # Delete temporary PDF
+    # Save PDF to generated_pdf
     # -----------------------------------
 
     if os.path.exists(pdf_path):
+
+        print("STEP 5: Saving PDF to generated_pdf...")
+
+        with open(pdf_path, "rb") as pdf:
+
+            report.generated_pdf.save(
+                f"Report_{report.id}.pdf",
+                File(pdf),
+                save=False,
+            )
+
+        print(
+            "STEP 6: generated_pdf:",
+            report.generated_pdf.name
+        )
+
         os.remove(pdf_path)
+
+        print("STEP 7: Temporary PDF removed.")
+
+    else:
+
+        print("ERROR: PDF FILE WAS NOT CREATED!")
+
+        return redirect("report_detail", report_id=report.id)
 
     # -----------------------------------
     # Submit report
@@ -261,7 +270,8 @@ def submit_report(request, report_id):
 
     report.save()
 
-    print("STEP 4: Report saved")
+    print("STEP 8: Report saved.")
+    print("========== SUBMIT REPORT COMPLETE ==========")
 
     return redirect("report_list")
 

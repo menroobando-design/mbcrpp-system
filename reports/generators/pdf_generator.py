@@ -191,33 +191,37 @@ def generate_report_pdf(report):
 
     draw_signatures(c, report)
 
-    # =====================================
+   # =====================================
     # PHOTO PAGES
     # =====================================
 
-    # photo_categories = [
+    photo_categories = [
 
-    #    ("Before", report.photos.filter(category="Before")),
+        ("Before", report.photos.filter(category="Before")),
 
-    #    ("During", report.photos.filter(category="During")),
+        ("During", report.photos.filter(category="During")),
 
-    #   ("After", report.photos.filter(category="After")),
+        ("After", report.photos.filter(category="After")),
 
-    #   ("Collected Waste", report.photos.filter(category="Collected Waste")),
+        ("Collected Waste", report.photos.filter(category="Collected Waste")),
 
-    #   ("Group Photo", report.photos.filter(category="Group Photo")),
+        ("Group Photo", report.photos.filter(category="Group Photo")),
 
-    #   ("Attendance", report.photos.filter(category="Attendance")),
+        ("Attendance", report.photos.filter(category="Attendance")),
 
-    #]
+    ]
 
-    # for title, queryset in photo_categories:
+    for title, queryset in photo_categories:
 
-    #    photos = list(queryset)
+        photos = list(queryset)
 
-    #    if photos:
+        if photos:
 
-    #        draw_photo_page(c, title, photos)
+            draw_photo_page(
+                c,
+                title,
+                photos
+            )
 
     c.save()
 
